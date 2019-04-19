@@ -5,7 +5,7 @@ export default class CreateListing extends Component {
   state = {
     name: '',
     description: '',
-    image_url: '',
+    image_id: '',
     price_in_wei: '',
 
     preview: null
@@ -16,12 +16,11 @@ export default class CreateListing extends Component {
   }
 
   uploadImageToCloudinaryAndSubmitData = async () => {
-    this.setState({ loading: true })
     var cloudinary_url = 'https://api.cloudinary.com/v1_1/blocktame/image/upload?upload_preset=eth-hack';
 
     let formData = new FormData();
     
-    formData.append('file', this.state.image_url)
+    formData.append('file', this.state.image_id)
     formData.append("upload_preset", 'nudge-uploads')
 
     const res = await fetch(cloudinary_url, {
@@ -30,9 +29,15 @@ export default class CreateListing extends Component {
     })
     const imageResponse = await res.json()
 
-    console.log("IMAGE RESPONSE", imageResponse);
-    this.setState({ loading: false })
+    return imageResponse.public_id;
     
+  }
+
+  submit = async () => {
+    this.setState({ loading: true })
+    await this.uploadImageToCloudinaryAndSubmitData()
+
+    this.setState({ loading: false })
   }
 
   render() {
@@ -69,7 +74,7 @@ export default class CreateListing extends Component {
                         var reader  = new FileReader();
 
                         reader.addEventListener("load", function () {
-                            this.setState({ preview: f, image_url: file, changeImg: false })
+                            this.setState({ preview: f, image_id: file, changeImg: false })
                         }.bind(this), false);
 
                         if (file) {
@@ -95,7 +100,7 @@ export default class CreateListing extends Component {
                         null
                     }
                 </div>
-                <button className='pure-button' onClick={this.uploadImageToCloudinaryAndSubmitData}>Add</button>
+                <button className='pure-button' onClick={this.submit}>Add</button>
 
             </div>
         }
