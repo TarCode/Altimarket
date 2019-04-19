@@ -51,10 +51,23 @@ export default class CreateListing extends Component {
             parseInt(price_in_wei)
         ).send({ from: accounts[0] });
 
+        const listingCount = await contract.methods.getListingCount().call();
+
+        await this.props.getListings(contract, listingCount);
+
+        this.setState({
+            name: '',
+            description: '',
+            image_id: '',
+            price_in_wei: '',
+            category: '',
+            preview: null
+          });
+        
     } catch(err) {
         console.log("ERR", err);
     }
-
+    
     this.setState({ loading: false })
   }
 

@@ -11,6 +11,7 @@ export default class App extends Component {
     web3: null, 
     accounts: null, 
     contract: null,
+    create_listing: false
   };
 
   getListings = async (contract, count) => {
@@ -69,35 +70,50 @@ export default class App extends Component {
   };
 
   render() {
-    const { accounts, contract, listings } = this.state;
+    const { accounts, contract, listings, create_listing } = this.state;
 
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App">
+      <div className='container'>
+        <div style={{
+            position: 'absolute',
+            right: '20px',
+            top: '10px'
+        }}>
+            <button onClick={() => {
+                this.setState({ create_listing: !create_listing})
+            }}>{
+                create_listing ?
+                "Close" : 
+                "New Ad"
+            }</button>
+        </div>
         <h1>ETH Hack</h1>
         <p>Listings: {this.state.listingCount}</p>
-        <CreateListing accounts={accounts} contract={contract}/>
         <p>The start of the ETH hack project</p>
-        <div className='pure-g'>
-            {
-                listings.length > 0 ?
-                listings.map((l, index) => (
-                    <div style={{
-                        maxWidth: '300px'
-                    }} className='pure-u-1 pure-u-md-1-8'>
-                        <ListingCard
-                            key={index}
-                            name={l.name}
-                            description={l.description}
-                            image_id={l.image_id}
-                        />
-                    </div>
-                )) :
-                <p>No listings yet</p>
-            }
-        </div>
+        {
+            create_listing ?
+            <div>
+                <CreateListing close={() => this.setState({ create_listing: false })} getListings={this.getListings} listingCount={this.state.listingCount} accounts={accounts} contract={contract}/>
+            </div> :
+            <div className='row'>
+                {
+                    listings.length > 0 ?
+                    listings.map((l, index) => (
+                        <div key={index} className='col-4'>
+                            <ListingCard
+                                name={l.name}
+                                description={l.description}
+                                image_id={l.image_id}
+                            />
+                        </div>
+                    )) :
+                    <p>No listings yet</p>
+                }
+            </div>
+        }
       </div>
     );
   }
