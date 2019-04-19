@@ -45,7 +45,11 @@ export default class CreateListing extends Component {
             <div className='pure-form'>
                 <h2>Create Listing</h2>
                 <input onChange={this.onChange} placeholder="Name" name='name' type='text' value={name}/>
+                <br/><br/>
                 <input onChange={this.onChange} placeholder="Description" name='description' type='text' value={description}/>
+                <br/><br/>
+                <input onChange={this.onChange} placeholder="Price" name='price_in_wei' value={price_in_wei}/>
+                <br/>
                 <div style={{
                     position: 'relative'
                 }}>
@@ -91,7 +95,6 @@ export default class CreateListing extends Component {
                         null
                     }
                 </div>
-                <input onChange={this.onChange} placeholder="Price" name='price_in_wei' value={price_in_wei}/>
                 <button className='pure-button' onClick={this.uploadImageToCloudinaryAndSubmitData}>Add</button>
 
             </div>
