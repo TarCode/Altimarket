@@ -2,12 +2,13 @@ pragma solidity >=0.4.21 < 0.6.0;
 
 contract Market {
 
-    event NewListing(uint listingId, string name, string description, string image_url, uint price_in_wei);
+    event NewListing(uint listingId, string name, string description, string image_id, uint price_in_wei);
 
     struct Listing {
         string name;
         string description;
-        string image_url;
+        string image_id;
+        string category;
         uint price_in_wei;
         bool available;
     }
@@ -24,13 +25,14 @@ contract Market {
     function createListing(
         string memory _name,
         string memory _description,
-        string memory _image_url,
+        string memory _image_id,
+        string memory _category,
         uint _price_in_wei
     ) public {
-        uint id = listings.push(Listing(_name, _description, _image_url, _price_in_wei, true));
+        uint id = listings.push(Listing(_name, _description, _image_id, _category,  _price_in_wei, true));
         listingToOwner[id] = msg.sender;
         ownerListingCount[msg.sender]++;
-        emit NewListing(id, _name, _description, _image_url, _price_in_wei);
+        emit NewListing(id, _name, _description, _image_id, _price_in_wei);
     }
 
     function getListingName(uint _id) external view returns(string memory) {
@@ -42,7 +44,7 @@ contract Market {
     }
 
     function getListingImageUrl(uint _id) external view returns(string memory) {
-        return(listings[_id].image_url);
+        return(listings[_id].image_id);
     }
 
     function getListingPrice(uint _id) external view returns(uint) {
