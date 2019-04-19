@@ -8,6 +8,7 @@ export default class CreateListing extends Component {
     image_url: '',
     price_in_wei: '',
 
+    preview: null
   }
 
   onChange = e => {
@@ -15,6 +16,7 @@ export default class CreateListing extends Component {
   }
 
   uploadImageToCloudinaryAndSubmitData = async () => {
+    this.setState({ loading: true })
     var cloudinary_url = 'https://api.cloudinary.com/v1_1/blocktame/image/upload?upload_preset=nudge-uploads';
 
     let formData = new FormData();
@@ -29,6 +31,7 @@ export default class CreateListing extends Component {
     const imageResponse = await res.json()
 
     console.log("IMAGE RESPONSE", imageResponse);
+    this.setState({ loading: false })
     
   }
 
@@ -65,6 +68,24 @@ export default class CreateListing extends Component {
                     reader.readAsDataURL(file);
                 }
             }} type="file" />
+        </div>
+        <div style={{
+            position: 'relative'
+        }}>
+            {
+                this.state.preview ?
+                <img style={{
+                    position: 'relative',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    width: '100%',
+                    height: '100%',
+                    boxSizing: 'border-box',
+                    objectFit: 'cover'
+                }} src={this.state.preview} alt="" /> :
+                null
+            }
         </div>
         <input onChange={this.onChange} placeholder="Price" name='price_in_wei' value={price_in_wei}/>
         <button onClick={this.submit}>Add</button>
