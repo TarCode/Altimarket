@@ -3,6 +3,9 @@ import MarketContract from "../contracts/Market.json";
 
 import CreateListing from '../components/CreateListing';
 import ListingCard from '../components/ListingCard';
+
+import ShowListing from './listing';
+
 import getWeb3 from "../utils/getWeb3";
 
 export default class App extends Component {
@@ -11,7 +14,8 @@ export default class App extends Component {
     web3: null, 
     accounts: null, 
     contract: null,
-    create_listing: false
+    create_listing: false,
+    selected_listing: null
   };
 
   getListings = async (contract, count) => {
@@ -28,9 +32,7 @@ export default class App extends Component {
             image_id
         })
     }
-
     return listings;
-    
   }
 
   componentDidMount = async () => {
@@ -70,7 +72,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { accounts, contract, listings, create_listing } = this.state;
+    const { accounts, contract, listings, create_listing, selected_listing } = this.state;
 
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
@@ -98,11 +100,28 @@ export default class App extends Component {
             <div>
                 <CreateListing close={() => this.setState({ create_listing: false })} getListings={this.getListings} listingCount={this.state.listingCount} accounts={accounts} contract={contract}/>
             </div> :
+            selected_listing ?
+           <div style={{
+               position: 'relative'
+           }}>
+                <button style={{
+                    position: 'absolute',
+                    right: '15px',
+                    top: '0px'
+                }} onClick={() => {
+                    this.setState({ selected_listing: null})
+                }}>Close</button>
+                <ShowListing
+                    name={selected_listing.name}
+                    description={selected_listing.description}
+                    image_id={selected_listing.image_id}
+                />
+           </div>:
             <div className='row'>
                 {
                     listings.length > 0 ?
                     listings.map((l, index) => (
-                        <div key={index} className='col-4'>
+                        <div onClick={() => this.setState({ selected_listing: l })} key={index} className='col-4'>
                             <ListingCard
                                 name={l.name}
                                 description={l.description}
