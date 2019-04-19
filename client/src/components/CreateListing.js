@@ -33,20 +33,33 @@ export default class CreateListing extends Component {
     
   }
 
+
   submit = async () => {
+    const {name, description, category, loading, price_in_wei} = this.state;
+    const { contract, accounts } = this.props;
+
     this.setState({ loading: true })
     
     try {
         const image_id = await this.uploadImageToCloudinaryAndSubmitData()
+
+        await contract.methods.createListing(
+            name,
+            description,
+            category,
+            image_id,
+            parseInt(price_in_wei)
+        ).send({ from: accounts[0] });
+
     } catch(err) {
-        window.alert("An error occurred");
+        console.log("ERR", err);
     }
 
     this.setState({ loading: false })
   }
 
   render() {
-    const {name , description, category, loading, price_in_wei} = this.state;
+    const {name, description, category, loading, price_in_wei} = this.state;
     return (
       <div>
         {
@@ -108,7 +121,6 @@ export default class CreateListing extends Component {
                     }
                 </div>
                 <button className='pure-button' onClick={this.submit}>Add</button>
-
             </div>
         }
       </div>

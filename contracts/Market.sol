@@ -43,7 +43,7 @@ contract Market {
         return(listings[_id].description);
     }
 
-    function getListingImageUrl(uint _id) external view returns(string memory) {
+    function getListingImageId(uint _id) external view returns(string memory) {
         return(listings[_id].image_id);
     }
 

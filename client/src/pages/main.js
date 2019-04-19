@@ -6,11 +6,30 @@ import getWeb3 from "../utils/getWeb3";
 
 export default class App extends Component {
   state = { 
-    storageValue: 0, 
+    listingCount: 0, 
     web3: null, 
     accounts: null, 
-    contract: null
+    contract: null,
   };
+
+  getListings = async (contract, count) => {
+
+    const listings = [];
+    for (let i = 0; i < count; i++) {
+        const name = await contract.methods.getListingName(i).call();
+        const description = await contract.methods.getListingDescription(i).call();
+        const image_id = await contract.methods.getListingImageId(i).call();
+
+        listings.push({
+            name,
+            description,
+            image_id
+        })
+    }
+
+    return listings;
+    
+  }
 
   componentDidMount = async () => {
     try {
@@ -28,9 +47,17 @@ export default class App extends Component {
         deployedNetwork && deployedNetwork.address,
       );
 
+      
+      const listingCount = await instance.methods.getListingCount().call();
+      
+      const listings = await this.getListings(instance, listingCount);
+
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance });
+      this.setState({ web3, accounts, contract: instance, listingCount, listings });
+
+      console.log("LISTINGS", listings);
+      
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -40,27 +67,17 @@ export default class App extends Component {
     }
   };
 
-  runExample = async () => {
+  render() {
     const { accounts, contract } = this.state;
 
-    // Stores a given value, 5 by default.
-    await contract.methods.set(5).send({ from: accounts[0] });
-
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
-
-    // Update state with the result.
-    this.setState({ storageValue: response });
-  };
-
-  render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
       <div className="App">
         <h1>ETH Hack</h1>
-        <CreateListing/>
+        <p>Listings: {this.state.listingCount}</p>
+        <CreateListing accounts={accounts} contract={contract}/>
         <p>The start of the ETH hack project</p>
         <p>
           New stuff coming soon
