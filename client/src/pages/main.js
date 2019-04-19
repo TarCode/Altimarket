@@ -80,19 +80,24 @@ export default class App extends Component {
         <p>Listings: {this.state.listingCount}</p>
         <CreateListing accounts={accounts} contract={contract}/>
         <p>The start of the ETH hack project</p>
-        {
-            listings.length > 0 ?
-            listings.map((l, index) => (
-                <div key={index}>
-                    <ListingCard 
-                        name={l.name}
-                        description={l.description}
-                        image_id={l.image_id}
-                    />
-                </div>
-            )) :
-            <p>No listings yet</p>
-        }
+        <div className='pure-g'>
+            {
+                listings.length > 0 ?
+                listings.map((l, index) => (
+                    <div style={{
+                        maxWidth: '300px'
+                    }} className='pure-u-1 pure-u-md-1-8'>
+                        <ListingCard
+                            key={index}
+                            name={l.name}
+                            description={l.description}
+                            image_id={l.image_id}
+                        />
+                    </div>
+                )) :
+                <p>No listings yet</p>
+            }
+        </div>
       </div>
     );
   }
