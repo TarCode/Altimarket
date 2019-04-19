@@ -25,14 +25,24 @@ export default class App extends Component {
         const name = await contract.methods.getListingName(i).call();
         const description = await contract.methods.getListingDescription(i).call();
         const image_id = await contract.methods.getListingImageId(i).call();
+        const price_in_wei = await contract.methods.getListingPrice(i).call();
 
         listings.push({
             name,
             description,
-            image_id
+            image_id,
+            price_in_wei
         })
     }
     return listings;
+  }
+
+  setListingState = async (instance) => {
+    const listingCount = await instance.methods.getListingCount().call();
+      
+    const listings = await this.getListings(instance, listingCount);
+
+    this.setState({ listings, listingCount });
   }
 
   componentDidMount = async () => {
@@ -52,15 +62,11 @@ export default class App extends Component {
       );
 
       
-      const listingCount = await instance.methods.getListingCount().call();
-      
-      const listings = await this.getListings(instance, listingCount);
+      await this.setListingState(instance);
 
-      // Set web3, accounts, and contract to the state, and then proceed with an
-      // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance, listingCount, listings });
 
-      console.log("LISTINGS", listings);
+      this.setState({ web3, accounts, contract: instance });
+
       
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -98,7 +104,7 @@ export default class App extends Component {
         {
             create_listing ?
             <div>
-                <CreateListing close={() => this.setState({ create_listing: false })} getListings={this.getListings} listingCount={this.state.listingCount} accounts={accounts} contract={contract}/>
+                <CreateListing close={() => this.setState({ create_listing: false })} getListings={this.setListingState} listingCount={this.state.listingCount} accounts={accounts} contract={contract}/>
             </div> :
             selected_listing ?
            <div style={{
@@ -120,7 +126,7 @@ export default class App extends Component {
             <div className='row'>
                 {
                     listings.length > 0 ?
-                    listings.map((l, index) => (
+                    listings.reverse().map((l, index) => (
                         <div onClick={() => this.setState({ selected_listing: l })} key={index} className='col-4'>
                             <ListingCard
                                 name={l.name}

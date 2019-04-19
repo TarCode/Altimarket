@@ -17,6 +17,8 @@ export default class extends Component {
             <h2>{name}</h2>
             <p>{description}</p>
             <h3>{price_in_wei}</h3>
+            <button>Buy</button>
+            <button>Chat</button>
         </div>
       </div>
     )

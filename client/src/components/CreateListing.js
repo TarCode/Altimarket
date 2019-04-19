@@ -55,6 +55,8 @@ export default class CreateListing extends Component {
 
         await this.props.getListings(contract, listingCount);
 
+        this.props.close()
+
         this.setState({
             name: '',
             description: '',
