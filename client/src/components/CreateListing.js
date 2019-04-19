@@ -7,7 +7,7 @@ export default class CreateListing extends Component {
     description: '',
     image_id: '',
     price_in_wei: '',
-
+    category: '',
     preview: null
   }
 
@@ -35,13 +35,18 @@ export default class CreateListing extends Component {
 
   submit = async () => {
     this.setState({ loading: true })
-    await this.uploadImageToCloudinaryAndSubmitData()
+    
+    try {
+        const image_id = await this.uploadImageToCloudinaryAndSubmitData()
+    } catch(err) {
+        window.alert("An error occurred");
+    }
 
     this.setState({ loading: false })
   }
 
   render() {
-    const {name , description, loading, price_in_wei} = this.state;
+    const {name , description, category, loading, price_in_wei} = this.state;
     return (
       <div>
         {
@@ -50,6 +55,8 @@ export default class CreateListing extends Component {
             <div className='pure-form'>
                 <h2>Create Listing</h2>
                 <input onChange={this.onChange} placeholder="Name" name='name' type='text' value={name}/>
+                <br/><br/>
+                <input onChange={this.onChange} placeholder="Category" name='category' type='text' value={category}/>
                 <br/><br/>
                 <input onChange={this.onChange} placeholder="Description" name='description' type='text' value={description}/>
                 <br/><br/>
