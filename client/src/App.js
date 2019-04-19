@@ -62,6 +62,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>ETH Hack</h1>
+        <CreateListing/>
         <p>The start of the ETH hack project</p>
         <p>
           New stuff coming soon

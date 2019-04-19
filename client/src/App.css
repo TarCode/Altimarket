@@ -1,3 +1,9 @@
+input[type="file"] { 
+	opacity: 0; /* make transparent */
+	z-index: -1; /* move under anything else */
+	position: absolute; /* don't let it take up space */
+}
+
 .App {
   text-align: center;
 }
