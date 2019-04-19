@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import MarketContract from "../contracts/Market.json";
 
 import CreateListing from '../components/CreateListing';
+import ListingCard from '../components/ListingCard';
 import getWeb3 from "../utils/getWeb3";
 
 export default class App extends Component {
@@ -68,7 +69,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { accounts, contract } = this.state;
+    const { accounts, contract, listings } = this.state;
 
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
@@ -79,9 +80,19 @@ export default class App extends Component {
         <p>Listings: {this.state.listingCount}</p>
         <CreateListing accounts={accounts} contract={contract}/>
         <p>The start of the ETH hack project</p>
-        <p>
-          New stuff coming soon
-        </p>
+        {
+            listings.length > 0 ?
+            listings.map((l, index) => (
+                <div key={index}>
+                    <ListingCard 
+                        name={l.name}
+                        description={l.description}
+                        image_id={l.image_id}
+                    />
+                </div>
+            )) :
+            <p>No listings yet</p>
+        }
       </div>
     );
   }
