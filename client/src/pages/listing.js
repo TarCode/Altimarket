@@ -80,7 +80,7 @@ export default class extends Component {
     }
 
   render() {
-    const { id, name, description, image_id, price_in_wei, seller } = this.props;
+    const { id, name, description, image_id, price_in_wei, seller, accounts } = this.props;
     const { loading, loading_buy, message_count, messages, msg } = this.state;
 
     
@@ -136,18 +136,21 @@ export default class extends Component {
                         <textarea onChange={e => {
                             this.setState({ msg: e.target.value })
                         }} className='msg-box' placeholder="Type message.." name="msg" required></textarea>
+                        {
+                            this.props.accounts[0] !== seller &&
+                            <button onClick={async e => {
+                                e.preventDefault();
 
-                        <button onClick={async e => {
-                            e.preventDefault();
+                                await this.props.chat_contract.methods.sendMessage(msg, seller, id).send({ from: this.props.accounts[0] });
 
-                            await this.props.chat_contract.methods.sendMessage(msg, seller, id).send({ from: this.props.accounts[0] });
-
-                            this.setState({ msg: '' })
-                        }} disabled={loading} className="btn">{
-                            loading ?
-                            "Sending..." :
-                            "Send"
-                        }</button>
+                                this.setState({ msg: '' })
+                            }} disabled={loading} className="btn">{
+                                loading ?
+                                "Sending..." :
+                                "Send"
+                            }</button>
+                        }
+                       
                         <button type="button" className="btn cancel" onClick={() => {
                             document.getElementById("myForm").style.display = "none";
                         }}>Close</button>
