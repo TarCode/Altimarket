@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MarketContract from "../contracts/Market.json";
+import ChatContract from "../contracts/Chat.json";
 
 import CreateListing from '../components/CreateListing';
 import ListingCard from '../components/ListingCard';
@@ -14,6 +15,7 @@ export default class App extends Component {
     web3: null, 
     accounts: null, 
     contract: null,
+    chat_contract: null,
     create_listing: false,
     selected_listing: null
   };
@@ -28,6 +30,7 @@ export default class App extends Component {
         const price_in_wei = await contract.methods.getListingPrice(i).call();
 
         listings.push({
+            id: i,
             name,
             description,
             image_id,
@@ -56,16 +59,23 @@ export default class App extends Component {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = MarketContract.networks[networkId];
+      const chatDeployedNetwork = ChatContract.networks[networkId];
+
       const instance = new web3.eth.Contract(
         MarketContract.abi,
         deployedNetwork && deployedNetwork.address,
+      );
+
+      const chat_contract = new web3.eth.Contract(
+        ChatContract.abi,
+        chatDeployedNetwork && chatDeployedNetwork.address,
       );
 
       
       await this.setListingState(instance);
 
 
-      this.setState({ web3, accounts, contract: instance });
+      this.setState({ web3, accounts, contract: instance, chat_contract });
 
       
     } catch (error) {
@@ -78,7 +88,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { accounts, contract, listings, create_listing, selected_listing } = this.state;
+    const { accounts, contract, chat_contract, listings, create_listing, selected_listing } = this.state;
 
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
@@ -118,9 +128,11 @@ export default class App extends Component {
                     this.setState({ selected_listing: null})
                 }}>Close</button>
                 <ShowListing
+                    id={selected_listing.id}
                     name={selected_listing.name}
                     description={selected_listing.description}
                     image_id={selected_listing.image_id}
+                    chat_contract={chat_contract}
                 />
            </div>:
             <div className='row'>
