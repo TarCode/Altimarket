@@ -18,7 +18,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x00eea685"
     },
     {
       "constant": false,
@@ -48,7 +49,8 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function"
+      "type": "function",
+      "signature": "0x1bafa6ed"
     },
     {
       "constant": true,
@@ -67,7 +69,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x288e6403"
     },
     {
       "constant": true,
@@ -86,7 +89,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x78ab9be7"
     },
     {
       "constant": true,
@@ -100,7 +104,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x87ed92d7"
     },
     {
       "constant": true,
@@ -119,7 +124,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x88069f7b"
     },
     {
       "constant": true,
@@ -138,7 +144,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0xc51b478a"
     },
     {
       "constant": true,
@@ -157,7 +164,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0xd6077fbf"
     },
     {
       "constant": true,
@@ -196,7 +204,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0xde74e57b"
     },
     {
       "anonymous": false,
@@ -223,7 +232,8 @@
         }
       ],
       "name": "NewMessage",
-      "type": "event"
+      "type": "event",
+      "signature": "0x6e84f87736f87244542608fc79be9a0ea339f621764e261788fea5e44f63c8e2"
     },
     {
       "anonymous": false,
@@ -260,7 +270,8 @@
         }
       ],
       "name": "NewListing",
-      "type": "event"
+      "type": "event",
+      "signature": "0x82406d862d0fb4ffb4e71be8540de79419e5ed7fda48e14da2caa73d468193bf"
     },
     {
       "constant": true,
@@ -279,7 +290,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x7f66b88b"
     },
     {
       "constant": false,
@@ -297,7 +309,8 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function"
+      "type": "function",
+      "signature": "0xd013bef0"
     },
     {
       "constant": true,
@@ -320,7 +333,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x07666148"
     },
     {
       "constant": true,
@@ -343,7 +357,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x85a3f75b"
     },
     {
       "constant": true,
@@ -366,7 +381,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x3cbaca70"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.5.0+commit.1d4f565a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"listingToOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_listingId\",\"type\":\"uint256\"},{\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"getListingMessageTextByIndex\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_name\",\"type\":\"string\"},{\"name\":\"_description\",\"type\":\"string\"},{\"name\":\"_image_id\",\"type\":\"string\"},{\"name\":\"_category\",\"type\":\"string\"},{\"name\":\"_price_in_wei\",\"type\":\"uint256\"}],\"name\":\"createListing\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"}],\"name\":\"getListingDescription\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_listingId\",\"type\":\"uint256\"},{\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"getListingMessageTimestampByIndex\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"}],\"name\":\"getListingImageId\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_listingId\",\"type\":\"uint256\"}],\"name\":\"getListingMessageCount\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_listingId\",\"type\":\"uint256\"},{\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"getListingMessageSenderByIndex\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getListingCount\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"}],\"name\":\"getListingName\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"}],\"name\":\"getListingAvailability\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_msg\",\"type\":\"string\"},{\"name\":\"_listingId\",\"type\":\"uint256\"}],\"name\":\"sendMessage\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"}],\"name\":\"getListingPrice\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"listings\",\"outputs\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"description\",\"type\":\"string\"},{\"name\":\"image_id\",\"type\":\"string\"},{\"name\":\"category\",\"type\":\"string\"},{\"name\":\"price_in_wei\",\"type\":\"uint256\"},{\"name\":\"available\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"message\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"listingId\",\"type\":\"uint256\"}],\"name\":\"NewMessage\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"listingId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"category\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"description\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"image_id\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"price_in_wei\",\"type\":\"uint256\"}],\"name\":\"NewListing\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/tarcode/Desktop/ETH/eth-hack/contracts/Chat.sol\":\"Chat\"},\"evmVersion\":\"byzantium\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/tarcode/Desktop/ETH/eth-hack/contracts/Chat.sol\":{\"keccak256\":\"0xd367fe20be35569091c3c05ca127b9c2cb3fe2e19155b31ff6c35cb0dfbd66cf\",\"urls\":[\"bzzr://418403a23bc45c8aa71ea75785e7ce3a822a1c787be2a39dbfbbded33d07d3cf\"]},\"/Users/tarcode/Desktop/ETH/eth-hack/contracts/Market.sol\":{\"keccak256\":\"0x8f5339b2299e47aa45ae49b2c4b507e99da92e05a3085e85b013aed3fb03ae9b\",\"urls\":[\"bzzr://29885109695cd748e7c9207e2d9f5d6b368354ba7a020ec3bd055c21b5cdfee5\"]}},\"version\":1}",
@@ -3996,9 +4012,16 @@
     "name": "solc",
     "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xE6F313E33A33e044d4487e4DFF22e2a04e4F2D47",
+      "transactionHash": "0x37975dda452350bc76fa48683ba2947fb1d7cb2332a5f3df5744ccf1a02d4da1"
+    }
+  },
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-04-20T06:46:08.606Z",
+  "updatedAt": "2019-04-20T07:09:33.915Z",
   "devdoc": {
     "methods": {}
   },
