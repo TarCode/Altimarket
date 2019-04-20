@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-
-// const {
-//     MKR,
-//     DAI,
-//     ETH,
-//     WETH,
-//     PETH,
-//     USD_ETH,
-//     USD_MKR,
-//     USD_DAI
-// } = Maker;
+import Maker from '@makerdao/dai';
+const {
+    MKR,
+    DAI,
+    ETH,
+    WETH,
+    PETH,
+    USD_ETH,
+    USD_MKR,
+    USD_DAI
+} = Maker;
 
 
 export default class extends Component {
@@ -20,9 +20,7 @@ export default class extends Component {
     }
 
     async componentDidMount() {
-
-        // STORING TESTNET PRIV KEY HERE. NOT SAFE IN REAL LIFE.
-    
+        // this.buyItem("0xa97841714F83FC29e61e9bF0564D72C4b0Ea3A57", 0.1)
         this.getMessages();
 
         this.props.chat_contract.events.NewMessage(function(error, event){ console.log(event); })
@@ -51,6 +49,35 @@ export default class extends Component {
         
         this.setState({ loading: false, message_count, messages })
     }
+
+    buyItem = async (recipient_address, amount) => {
+        this.setState({ loading_buy: true })
+         // STORING TESTNET PRIV KEY HERE. NOT SAFE IN REAL LIFE.
+         const maker = await Maker.create('http',{
+            privateKey: "581e159d4833a9bab99bc58f8622106ea70a7c97d7211b9a1080941919d2b7b3",
+            url: 'https://kovan.infura.io/v3/97efc724e0d44243947abcc78db59c5a'
+         })
+
+        await maker.authenticate();
+
+        // const txMgr = maker.service('transactionManager');
+        
+        const cdp = await maker.openCdp();
+
+        await cdp.lockEth(amount);
+        await cdp.drawDai(10);
+
+        const debt = await cdp.getDebtValue();
+        console.log("DAI DAI DAI DAI", debt); 
+
+        const dai = maker.service('token').getToken('DAI');
+
+        // Send to contract via Raiden network
+        await dai.transfer(recipient_address, DAI(10));
+
+        this.setState({ loading: false })
+    }
+
   render() {
     const { id, name, description, image_id, price_in_wei, seller } = this.props;
     const { loading, message_count, messages, msg } = this.state;

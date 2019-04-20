@@ -68,12 +68,12 @@ export default class App extends Component {
 
       const instance = new web3.eth.Contract(
         MarketContract.abi,
-        deployedNetwork && deployedNetwork.address,
+        "0x85543c0b8e5895ec02b3e18107a87eb4be4e4104", // HARDCODED ADDRESS
       );
 
       const chat_contract = new web3.eth.Contract(
         ChatContract.abi,
-        chatDeployedNetwork && chatDeployedNetwork.address,
+        "0xf1d9e998abb0b07839cdd5db03cfe54f8d1fe307" // HARDCODED ADDRESS
       );
 
       
