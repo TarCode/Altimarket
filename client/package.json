@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@makerdao/dai": "^0.15.1-kovan.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^5.0.0",

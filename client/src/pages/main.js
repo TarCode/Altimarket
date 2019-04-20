@@ -60,8 +60,11 @@ export default class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
+      
       const deployedNetwork = MarketContract.networks[networkId];
       const chatDeployedNetwork = ChatContract.networks[networkId];
+      
+      console.log("THIS IS THE APPARENT NETWORK", MarketContract);
 
       const instance = new web3.eth.Contract(
         MarketContract.abi,
@@ -142,7 +145,7 @@ export default class App extends Component {
             <div className='row'>
                 {
                     listings.length > 0 ?
-                    listings.reverse().map((l, index) => (
+                    listings.map((l, index) => (
                         <div onClick={() => this.setState({ selected_listing: l })} key={index} className='col-4'>
                             <ListingCard
                                 name={l.name}
