@@ -18,7 +18,8 @@ export default class App extends Component {
     contract: null,
     chat_contract: null,
     create_listing: false,
-    selected_listing: null
+    selected_listing: null,
+    search: ''
   };
 
   getListings = async (contract, count) => {
@@ -105,6 +106,8 @@ export default class App extends Component {
       { value: 'cars', label: 'Cars' },
       { value: 'fashion', label: 'Fashion' }
     ]
+
+    const the_listings = this.state.search.length > 0 ? listings.filter(l => l.name.toLowerCase().includes(this.state.search.toLowerCase())) : listings;
     
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
@@ -112,16 +115,18 @@ export default class App extends Component {
     return (
       <div className='container'>
         <div style={{
+            textAlign: 'center',
             position: 'fixed',
-            right: '20px',
-            top: '20px'
+            left: '50vw',
+            top: '20px',
+            zIndex: 10001
         }}>
           <b>{(balance/1000000000000000000)} ETH</b>
           <p style={{ marginTop: '0px'}}>ZAR 1234</p>
         </div>
         <div style={{
             position: 'fixed',
-            right: '180px',
+            right: '10px',
             top: '20px',
             zIndex: 10001
         }}>
@@ -139,17 +144,19 @@ export default class App extends Component {
           <div style={{
             position: 'relative'
           }} className='row'>
-            <div className='col-6'>
-              <input style={{
+            <div className='col-9'>
+              <input onChange={(e) => {
+                this.setState({ search: e.target.value})
+              }} style={{
                 maxWidth: '650px',
                 width: '90%',
                 height: '75px',
                 display: 'inline-block'
               }} placeholder="Start typing..."/>
             </div>
-            <div className="col-3">
+            {/* <div className="col-3">
               <Select options={options} />
-            </div>
+            </div> */}
             <div style={{
               position: 'relative',
               right: 0
@@ -193,7 +200,7 @@ export default class App extends Component {
             <div className='row'>
                 {
                     listings.length > 0 ?
-                    listings.map((l, index) => (
+                    the_listings.map((l, index) => (
                         <div onClick={() => this.setState({ selected_listing: l })} key={index} className='col-4'>
                             <ListingCard
                                 price_in_wei={l.price_in_wei}
