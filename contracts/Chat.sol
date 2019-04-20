@@ -4,7 +4,7 @@ import "./Market.sol";
 
 contract Chat is Market {
 
-    event NewMessage(string message, address to_user, address from_user, uint timestamp, uint listingId);
+    event NewMessage(string message, address to_user, uint timestamp, uint listingId);
 
     address owner;
 
@@ -24,7 +24,7 @@ contract Chat is Market {
     function sendMessage(string calldata _msg, address _to_user, uint _listingId) external {
         Message memory message = Message(_msg, _to_user, msg.sender, block.timestamp);
         listingIdToMessages[_listingId].push(message);
-        emit NewMessage(_msg, _to_user, msg.sender, block.timestamp, _listingId);
+        emit NewMessage(_msg, _to_user, block.timestamp, _listingId);
     }
 
     function getListingMessageTextByIndex(uint _listingId, uint _index) external view returns(string memory) {

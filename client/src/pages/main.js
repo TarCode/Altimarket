@@ -131,6 +131,7 @@ export default class App extends Component {
                 }}>Close</button>
                 <ShowListing
                     id={selected_listing.id}
+                    accounts={accounts}
                     name={selected_listing.name}
                     description={selected_listing.description}
                     image_id={selected_listing.image_id}
