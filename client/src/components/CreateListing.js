@@ -11,6 +11,16 @@ export default class CreateListing extends Component {
     preview: null
   }
 
+  async componentDidMount() {
+    this.props.contract.events.NewListing(function(error, event){ console.log(event); })
+    .on('data', async event => {
+        const listingCount = await this.props.contract.methods.getListingCount().call();
+
+        await this.props.getListings(this.props.contract, listingCount);
+    })
+    .on('error', console.error);
+  }
+
   onChange = e => {
       this.setState({ [e.target.name]: e.target.value })
   }
@@ -50,10 +60,6 @@ export default class CreateListing extends Component {
             image_id,
             parseInt(price_in_wei)
         ).send({ from: accounts[0] });
-
-        const listingCount = await contract.methods.getListingCount().call();
-
-        await this.props.getListings(contract, listingCount);
 
         this.props.close()
 
