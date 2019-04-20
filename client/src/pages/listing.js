@@ -11,10 +11,17 @@ export default class extends Component {
 
         this.setState({ loading: true })
         const message_count = await chat_contract.methods.getListingMessageCount(id).call();
-
+        const messages = [];
         console.log("MESSAGE COUNT", message_count);
+
+        for (let i = 0; i < message_count; i++) {
+            const message = await chat_contract.methods.getListingMessageTextByIndex(id).call();
+            messages.push({
+                message
+            })
+        }
         
-        this.setState({ loading: false, message_count })
+        this.setState({ loading: false, message_count, messages })
     }
 
   render() {

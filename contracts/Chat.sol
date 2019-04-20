@@ -18,16 +18,7 @@ contract Chat is Market {
     mapping(uint => Message[]) listingIdToMessages;
 
     function getListingMessageCount(uint _listingId) external view returns(uint) {
-        uint16 ownerAndSenderMsgCount = 0;
-        for (uint i = 0; i < listingIdToMessages[_listingId].length; i++) {
-            if(
-                listingIdToMessages[_listingId][i].from_user == msg.sender ||
-                listingIdToMessages[_listingId][i].to_user == msg.sender
-            ) {
-                ownerAndSenderMsgCount++;
-            }
-        }
-        return ownerAndSenderMsgCount;
+        return listingIdToMessages[_listingId].length;
     }
 
     function sendMessage(string calldata _msg, address _to_user, uint _listingId) external {
