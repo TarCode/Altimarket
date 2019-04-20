@@ -39,11 +39,10 @@ export default class extends Component {
                     <p>{description}</p>
                     <h3>{price_in_wei}</h3>
                     <button>Buy</button>
-                    <button>Chat {message_count.toString()}</button>
                 </div>
                 <button className="open-button" onClick={() => {
                     document.getElementById("myForm").style.display = "block";
-                }}>Chat</button>
+                }}>Chat ({message_count.toString()})</button>
 
                 <div className="chat-popup" id="myForm">
                 <form action="/action_page.php" className="form-container">

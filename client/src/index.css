@@ -1,4 +1,18 @@
 /* CHAT POPUP */
+button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  margin-bottom:10px;
+  opacity: 0.7;
+}
+
+.full-width {
+  width: 100%;
+}
+
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {
   background-color: #555;
@@ -67,6 +81,6 @@
 }
 
 /* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
+.form-container .btn:hover, .open-button:hover, button:hover {
   opacity: 1;
 }
