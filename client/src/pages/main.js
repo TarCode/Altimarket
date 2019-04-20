@@ -28,13 +28,15 @@ export default class App extends Component {
         const description = await contract.methods.getListingDescription(i).call();
         const image_id = await contract.methods.getListingImageId(i).call();
         const price_in_wei = await contract.methods.getListingPrice(i).call();
+        const seller = await contract.methods.getListingOwnerById(i).call();
 
         listings.push({
             id: i,
             name,
             description,
             image_id,
-            price_in_wei
+            price_in_wei,
+            seller
         })
     }
     return listings;
@@ -133,6 +135,7 @@ export default class App extends Component {
                     description={selected_listing.description}
                     image_id={selected_listing.image_id}
                     chat_contract={chat_contract}
+                    seller={selected_listing.seller}
                 />
            </div>:
             <div className='row'>
