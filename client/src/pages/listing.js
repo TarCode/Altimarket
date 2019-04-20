@@ -98,7 +98,7 @@ export default class extends Component {
                 }}>
                     <h2>{name}</h2>
                     <p>{description}</p>
-                    <h3>{price_in_wei}</h3>
+                    <h3>{price_in_wei/1000000000000000000} ETH</h3>
                     <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei * 1000000000000000000)) }>
                         {
                             loading_buy ?

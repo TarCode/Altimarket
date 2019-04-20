@@ -109,12 +109,10 @@ export default class App extends Component {
             }}>{
                 create_listing ?
                 "Close" : 
-                "New Ad"
+                "CREATE LISTING"
             }</button>
         </div>
-        <h1>ETH Hack</h1>
-        <p>Listings: {this.state.listingCount}</p>
-        <p>The start of the ETH hack project</p>
+        <h2>Listings: {this.state.listingCount}</h2>
         {
             create_listing ?
             <div>
