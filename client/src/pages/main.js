@@ -64,16 +64,15 @@ export default class App extends Component {
       const deployedNetwork = MarketContract.networks[networkId];
       const chatDeployedNetwork = ChatContract.networks[networkId];
       
-      console.log("THIS IS THE APPARENT NETWORK", MarketContract);
 
       const instance = new web3.eth.Contract(
         MarketContract.abi,
-        "0x85543c0b8e5895ec02b3e18107a87eb4be4e4104", // HARDCODED ADDRESS
+        "0xe6f313e33a33e044d4487e4dff22e2a04e4f2d47", // HARDCODED ADDRESS
       );
 
       const chat_contract = new web3.eth.Contract(
         ChatContract.abi,
-        "0xf1d9e998abb0b07839cdd5db03cfe54f8d1fe307" // HARDCODED ADDRESS
+        "0x132688f89434bd3512882e99977abee77a9a1f9f" // HARDCODED ADDRESS
       );
 
       
@@ -136,6 +135,7 @@ export default class App extends Component {
                     id={selected_listing.id}
                     accounts={accounts}
                     name={selected_listing.name}
+                    price_in_wei={selected_listing.price_in_wei}
                     description={selected_listing.description}
                     image_id={selected_listing.image_id}
                     chat_contract={chat_contract}
@@ -148,6 +148,7 @@ export default class App extends Component {
                     listings.map((l, index) => (
                         <div onClick={() => this.setState({ selected_listing: l })} key={index} className='col-4'>
                             <ListingCard
+                                price_in_wei={l.price_in_wei}
                                 name={l.name}
                                 description={l.description}
                                 image_id={l.image_id}

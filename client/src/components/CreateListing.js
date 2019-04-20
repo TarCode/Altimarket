@@ -58,7 +58,7 @@ export default class CreateListing extends Component {
             description,
             category,
             image_id,
-            parseInt(price_in_wei)
+            price_in_wei
         ).send({ from: accounts[0] });
 
         this.props.close()
@@ -69,14 +69,14 @@ export default class CreateListing extends Component {
             image_id: '',
             price_in_wei: '',
             category: '',
-            preview: null
+            preview: null,
+            loading: false
           });
         
     } catch(err) {
         console.log("ERR", err);
     }
     
-    this.setState({ loading: false })
   }
 
   render() {

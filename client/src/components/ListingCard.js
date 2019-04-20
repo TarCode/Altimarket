@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class ListingCard extends Component {
   render() {
-    const { name, description, image_id, price_in_wei } = this.props;
+    const { name, image_id, price_in_wei } = this.props;
     return (
       <div className='card'>
         <img style={{
@@ -15,7 +15,7 @@ export default class ListingCard extends Component {
             padding: '10px 20px 20px'
         }}>
             <h2>{name}</h2>
-            <h3>{price_in_wei}</h3>
+            <h3>{price_in_wei/1000000000000000000} ETH</h3>
         </div>
       </div>
     )

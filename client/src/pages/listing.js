@@ -67,20 +67,22 @@ export default class extends Component {
         await cdp.lockEth(amount);
         await cdp.drawDai(10);
 
-        const debt = await cdp.getDebtValue();
-        console.log("DAI DAI DAI DAI", debt); 
-
         const dai = maker.service('token').getToken('DAI');
 
-        // Send to contract via Raiden network
+        // TODO: Send to contract via Raiden network
+
+        // TODO: Add txMgr listener to listen for DAI payments
+
         await dai.transfer(recipient_address, DAI(10));
 
-        this.setState({ loading: false })
+        this.setState({ loading_buy: false })
     }
 
   render() {
     const { id, name, description, image_id, price_in_wei, seller } = this.props;
-    const { loading, message_count, messages, msg } = this.state;
+    const { loading, loading_buy, message_count, messages, msg } = this.state;
+
+    
     return (
       <div>
         {
@@ -97,7 +99,13 @@ export default class extends Component {
                     <h2>{name}</h2>
                     <p>{description}</p>
                     <h3>{price_in_wei}</h3>
-                    <button>Buy</button>
+                    <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei * 1000000000000000000)) }>
+                        {
+                            loading_buy ?
+                            "Processing transaction..." :
+                            "Buy"
+                        }
+                    </button>
                 </div>
                 <button className="open-button" onClick={() => {
                     document.getElementById("myForm").style.display = "block";
