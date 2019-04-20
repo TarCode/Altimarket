@@ -54,4 +54,8 @@ contract Market {
     function getListingAvailability(uint _id) external view returns(bool) {
         return(listings[_id].available);
     }
+
+    function getListingOwnerById(uint _id) external view returns(address) {
+        return(listingToOwner[_id]);
+    }
 }
