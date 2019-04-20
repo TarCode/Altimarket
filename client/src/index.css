@@ -84,3 +84,7 @@ button {
 .form-container .btn:hover, .open-button:hover, button:hover {
   opacity: 1;
 }
+
+button:disabled {
+  opacity: 0.3;
+}

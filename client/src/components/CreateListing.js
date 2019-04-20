@@ -35,7 +35,7 @@ export default class CreateListing extends Component {
 
 
   submit = async () => {
-    const {name, description, category, loading, price_in_wei} = this.state;
+    const {name, description, category, price_in_wei} = this.state;
     const { contract, accounts } = this.props;
 
     this.setState({ loading: true })
@@ -74,7 +74,9 @@ export default class CreateListing extends Component {
   }
 
   render() {
-    const {name, description, category, loading, price_in_wei} = this.state;
+    const {name, description, category, loading, image_id, price_in_wei} = this.state;
+
+    const btn_disabled = name.length > 0 && category.length > 0 && description.length > 0 && image_id && price_in_wei > 0 ? false : true;
     return (
       <div>
         {
@@ -127,15 +129,15 @@ export default class CreateListing extends Component {
                             top: 0,
                             left: 0,
                             right: 0,
-                            width: '100%',
-                            height: '100%',
+                            height: '200px',
+                            width: 'auto',
                             boxSizing: 'border-box',
                             objectFit: 'cover'
                         }} src={this.state.preview} alt="" /> :
                         null
                     }
                 </div>
-                <button className='pure-button' onClick={this.submit}>Add</button>
+                <button disabled={btn_disabled} className='pure-button' onClick={this.submit}>Add</button>
             </div>
         }
       </div>
