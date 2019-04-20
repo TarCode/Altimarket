@@ -1,7 +1,4 @@
 const path = require("path");
-var HDWalletProvider = require("truffle-hdwallet-provider");
-
-var mnemonic = "sad puzzle swarm upset wrong crunch region prosper vacant polar nice ask";
 
 module.exports = {
   contracts_build_directory: path.join(__dirname, "client/src/contracts"),
