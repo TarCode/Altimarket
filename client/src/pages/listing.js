@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-import Maker from '@makerdao/dai';
-const {
-    MKR,
-    DAI,
-    ETH,
-    WETH,
-    PETH,
-    USD_ETH,
-    USD_MKR,
-    USD_DAI
-} = Maker;
+
+// const {
+//     MKR,
+//     DAI,
+//     ETH,
+//     WETH,
+//     PETH,
+//     USD_ETH,
+//     USD_MKR,
+//     USD_DAI
+// } = Maker;
 
 
 export default class extends Component {
@@ -22,20 +22,7 @@ export default class extends Component {
     async componentDidMount() {
 
         // STORING TESTNET PRIV KEY HERE. NOT SAFE IN REAL LIFE.
-        const maker = await Maker.create('http', {
-            privateKey: "581e159d4833a9bab99bc58f8622106ea70a7c97d7211b9a1080941919d2b7b3",
-            url: 'http://localhost:8545',
-        });
-
-        await maker.authenticate();
-
-        const priceService = maker.service('price');
-
-        console.log("THIS IS THE MAKER PRICE SERVICE", priceService);
-        
-
-        
-
+    
         this.getMessages();
 
         this.props.chat_contract.events.NewMessage(function(error, event){ console.log(event); })
