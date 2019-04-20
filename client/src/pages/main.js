@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MarketContract from "../contracts/Market.json";
 import ChatContract from "../contracts/Chat.json";
+import Select from 'react-select'
 
 import CreateListing from '../components/CreateListing';
 import ListingCard from '../components/ListingCard';
@@ -60,6 +61,11 @@ export default class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
+
+      const balance = await web3.eth.getBalance(accounts[0]);
+
+      console.log("BALANCE", balance);
+      
       
       const deployedNetwork = MarketContract.networks[networkId];
       const chatDeployedNetwork = ChatContract.networks[networkId];
@@ -79,7 +85,7 @@ export default class App extends Component {
       await this.setListingState(instance);
 
 
-      this.setState({ web3, accounts, contract: instance, chat_contract });
+      this.setState({ web3, accounts, contract: instance, chat_contract, balance });
 
       
     } catch (error) {
@@ -92,17 +98,32 @@ export default class App extends Component {
   };
 
   render() {
-    const { accounts, contract, chat_contract, listings, create_listing, selected_listing } = this.state;
-
+    const { accounts, contract, chat_contract, listings, create_listing, selected_listing, balance } = this.state;
+    
+    const options = [
+      { value: 'electronics', label: 'Electronics' },
+      { value: 'cars', label: 'Cars' },
+      { value: 'fashion', label: 'Fashion' }
+    ]
+    
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
       <div className='container'>
         <div style={{
-            position: 'absolute',
+            position: 'fixed',
             right: '20px',
-            top: '10px'
+            top: '20px'
+        }}>
+          <b>{(balance/1000000000000000000)} ETH</b>
+          <p style={{ marginTop: '0px'}}>ZAR 1234</p>
+        </div>
+        <div style={{
+            position: 'fixed',
+            right: '180px',
+            top: '20px',
+            zIndex: 10001
         }}>
             <button onClick={() => {
                 this.setState({ create_listing: !create_listing})
@@ -112,7 +133,36 @@ export default class App extends Component {
                 "CREATE LISTING"
             }</button>
         </div>
-        <h2>Listings: {this.state.listingCount}</h2>
+          <br/><br/>
+        {
+          !selected_listing && !create_listing &&
+          <div style={{
+            position: 'relative'
+          }} className='row'>
+            <div className='col-6'>
+              <input style={{
+                maxWidth: '650px',
+                width: '90%',
+                height: '75px',
+                display: 'inline-block'
+              }} placeholder="Start typing..."/>
+            </div>
+            <div className="col-3">
+              <Select options={options} />
+            </div>
+            <div style={{
+              position: 'relative',
+              right: 0
+            }} className='col-2'>
+              <button style={{
+                height: '80px',
+                width: '100%',
+                fontSize: '22px'
+              }}>SEARCH</button>
+            </div>
+          </div>
+        }
+        {!selected_listing && !create_listing && <h1 className='left'>On the market: {this.state.listingCount}</h1>}
         {
             create_listing ?
             <div>
