@@ -52,28 +52,38 @@ export default class extends Component {
             button: "Awwww yeah!",
         });
 
+        // WARNING: TRANSACTION FLOW INCOMPLETE - DIRTY SIMULATION OF OPENING A CDP
+        // FOR DAI AND SENDING TO THE SELLER FOR DEMO. VALUES ARE SCREWED TOO. 
+        // STILL WORK TO BE DONE HERE.
+
          // STORING TESTNET PRIV KEY HERE. NOT SAFE IN REAL LIFE.
-         const maker = await Maker.create('http',{
-            privateKey: "581e159d4833a9bab99bc58f8622106ea70a7c97d7211b9a1080941919d2b7b3",
-            url: 'https://kovan.infura.io/v3/97efc724e0d44243947abcc78db59c5a'
-         })
+        try {
+            const maker = await Maker.create('http',{
+                privateKey: "581e159d4833a9bab99bc58f8622106ea70a7c97d7211b9a1080941919d2b7b3",
+                url: 'https://kovan.infura.io/v3/97efc724e0d44243947abcc78db59c5a'
+             })
+    
+            await maker.authenticate();
+    
+            // const txMgr = maker.service('transactionManager');
+            
+            const cdp = await maker.openCdp();
+    
+            await cdp.lockEth(amount);
+            await cdp.drawDai(parseInt(amount) * 100);
+    
+            const dai = maker.service('token').getToken('DAI');
+    
+            // TODO: Send to contract via Raiden network
 
-        await maker.authenticate();
-
-        // const txMgr = maker.service('transactionManager');
-        
-        const cdp = await maker.openCdp();
-
-        await cdp.lockEth(amount);
-        await cdp.drawDai(10);
-
-        const dai = maker.service('token').getToken('DAI');
-
-        // TODO: Send to contract via Raiden network
-
-        // TODO: Add txMgr listener to listen for DAI payments
-
-        await dai.transfer(recipient_address, DAI(10));
+            // TODO: Add txMgr listener to listen for DAI payments
+    
+            await dai.transfer(recipient_address, DAI(parseInt(amount) * 100));
+        } catch (err) {
+            swal("Transaction failed...", "Transaction failed for some reason. Probably insufficient funds or something...", "success", {
+                button: "Awwww yeah!",
+            });
+        }
 
 
         this.setState({ loading_buy: false })
