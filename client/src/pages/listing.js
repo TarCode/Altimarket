@@ -99,13 +99,17 @@ export default class extends Component {
                         <h2>{name}</h2>
                         <p>{description}</p>
                         <h3>{price_in_wei/1000000000000000000} ETH</h3>
-                        <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei * 1000000000000000000)) }>
-                            {
-                                loading_buy ?
-                                "Processing transaction..." :
-                                "Buy"
+                        {
+                            this.props.accounts[0] !== seller ?
+                            <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei * 1000000000000000000)) }>
+                                {
+                                    loading_buy ?
+                                    "Processing transaction..." :
+                                    "Buy"
+                                }
+                            </button> :
+                            <p>You are selling this product</p>
                             }
-                        </button>
                     </div>
                     {<button className="open-button" onClick={() => {
                         document.getElementById("myForm").style.display = "block";
@@ -136,6 +140,7 @@ export default class extends Component {
                     <textarea onChange={e => {
                         this.setState({ msg: e.target.value })
                     }} className='msg-box' placeholder="Type message.." name="msg" required></textarea>
+                    
                     <button onClick={async e => {
                         e.preventDefault();
 
@@ -147,7 +152,9 @@ export default class extends Component {
                         "Sending..." :
                         "Send"
                     }</button>
-                
+                    <button type="button" className="btn cancel" onClick={() => {
+                        document.getElementById("myForm").style.display = "none";
+                    }}>Close</button>
                 </form>
             </div>
         </div>

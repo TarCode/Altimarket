@@ -107,7 +107,7 @@ export default class App extends Component {
       { value: 'fashion', label: 'Fashion' }
     ]
 
-    const the_listings = listings && accounts && accounts.length > 0 && (this.state.search.length > 0 ? listings.filter(i => accounts[0] !== i.seller).filter(l => l.name.toLowerCase().includes(this.state.search.toLowerCase())) : listings && listings.filter(i => accounts[0] !== i.seller));
+    const the_listings = this.state.search.length > 0 ? listings.filter(l => l.name.toLowerCase().includes(this.state.search.toLowerCase())) : listings;
     
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
