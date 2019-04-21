@@ -59,7 +59,7 @@ export default class extends Component {
          // STORING TESTNET PRIV KEY HERE. NOT SAFE IN REAL LIFE.
         try {
             const maker = await Maker.create('http',{
-                privateKey: "581e159d4833a9bab99bc58f8622106ea70a7c97d7211b9a1080941919d2b7b3",
+                privateKey: "581E159D4833A9BAB99BC58F8622106EA70A7C97D7211B9A1080941919D2B7B3",
                 url: 'https://kovan.infura.io/v3/97efc724e0d44243947abcc78db59c5a'
              })
     
@@ -72,21 +72,29 @@ export default class extends Component {
             await cdp.lockEth(amount);
             await cdp.drawDai(parseInt(amount) * 100);
     
-            const dai = maker.service('token').getToken('DAI');
+            const dai = await maker.service('token').getToken('DAI');
     
             // TODO: Send to contract via Raiden network
 
             // TODO: Add txMgr listener to listen for DAI payments
     
             await dai.transfer(recipient_address, DAI(parseInt(amount) * 100));
-        } catch (err) {
-            swal("Transaction failed...", "Transaction failed for some reason. Probably insufficient funds or something...", "success", {
+
+            swal("Transaction complete!", "You just bough something! Yeah!", "success", {
                 button: "Awwww yeah!",
             });
+
+            this.setState({ loading_buy: false })
+        } catch (err) {
+
+            swal({
+                title: "Transaction failed...",
+                text: "Transaction failed for some reason. Probably insufficient funds or something...",
+                icon: "error",
+              });
+
+              this.setState({ loading_buy: false })
         }
-
-
-        this.setState({ loading_buy: false })
     }
 
   render() {
@@ -111,7 +119,7 @@ export default class extends Component {
                         <h3>{price_in_wei/1000000000000000000} ETH</h3>
                         {
                             this.props.accounts[0] !== seller ?
-                            <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei * 1000000000000000000)) }>
+                            <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei)) }>
                                 {
                                     loading_buy ?
                                     "Processing transaction..." :
@@ -119,6 +127,11 @@ export default class extends Component {
                                 }
                             </button> :
                             <p>You are selling this product</p>
+                            }
+                            <br/>
+                            {
+                                loading_buy ?
+                                    "Please wait while the transaction is being processed. It may take a while..." : null
                             }
                     </div>
                     {<button className="open-button" onClick={() => {
