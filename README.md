@@ -34,4 +34,4 @@ The following is incomplete:
 
 [Invision Prototype](https://projects.invisionapp.com/share/CRRN3OEFKH7#/screens/359194224_Landing_Page_Copy)
 
-[Altimarket POC](https://altimarket.surge.sh) - You need Metamask connected to ROPSTEN for this ^_^
+[Altimarket POC](https://altimarket.surge.sh) - You need Metamask connected to KOVAN for this ^_^
