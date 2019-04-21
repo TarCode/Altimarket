@@ -12,7 +12,7 @@ Altimarket aims to address this by:
 - Possibly contributing to reducing the poverty gap
 - Lowering the barrier of entry to crypto, blockchain and decentralized tech
 
-Alticoin uses DAI stablecoin to prevent price fluctuations while the payment is locked in the escrow service and the Raiden Network for fast, cheap, off-chain transactions.
+Altimarket uses DAI stablecoin to prevent price fluctuations while the payment is locked in the escrow service and the Raiden Network for fast, cheap, off-chain transactions.
 
 ## Technology stack
 Altimarket is built using Truffle, React, Web3 and DAI.js
