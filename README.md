@@ -1,4 +1,5 @@
 ![](https://altimarket.surge.sh/img/logo.png)
+![](https://altimarket.surge.sh/img/logo2.png)
 # Altimarket
 
 Altimarket is a decentralized classified ads platform (similar to Gumtree, Craigslist, Junkmail, etc) with escrow service built on Ethereum. 
