@@ -85,80 +85,72 @@ export default class extends Component {
 
     
     return (
-      <div>
-        {
-            <div>
-                <img style={{
-                    width: '100%',
-                    height: '50vh',
-                    objectFit: 'cover',
-                    
-                }} src={"https://res.cloudinary.com/blocktame/image/upload/v1555706663/" + image_id}/>
-                <div style={{
-                    padding: '10px 20px 20px'
-                }}>
-                    <h2>{name}</h2>
-                    <p>{description}</p>
-                    <h3>{price_in_wei/1000000000000000000} ETH</h3>
-                    <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei * 1000000000000000000)) }>
-                        {
-                            loading_buy ?
-                            "Processing transaction..." :
-                            "Buy"
-                        }
-                    </button>
+        <div>
+            <div className="row">
+                <div className='col-6'>
+                    <img style={{
+                        width: '100%',
+                        height: '50vh',
+                        objectFit: 'cover',
+                        
+                    }} src={"https://res.cloudinary.com/blocktame/image/upload/v1555706663/" + image_id}/>
                 </div>
-                <button className="open-button" onClick={() => {
-                    document.getElementById("myForm").style.display = "block";
-                }}>{
-                    loading ? 
-                    "Loading chat..." :
-                    <span>Chat ({message_count.toString()})</span>
-                }</button>
+                    <div className="col-6">
+                        <h2>{name}</h2>
+                        <p>{description}</p>
+                        <h3>{price_in_wei/1000000000000000000} ETH</h3>
+                        <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei * 1000000000000000000)) }>
+                            {
+                                loading_buy ?
+                                "Processing transaction..." :
+                                "Buy"
+                            }
+                        </button>
+                    </div>
+                    {<button className="open-button" onClick={() => {
+                        document.getElementById("myForm").style.display = "block";
+                    }}>{
+                        loading ? 
+                        "Loading chat..." :
+                        <span>Chat ({message_count.toString()})</span>
+                    }</button>}
 
-                <div className="chat-popup" id="myForm">
-                <form className="form-container">
-                        <h1>Chat</h1>
-                        {
-                            messages && messages.length > 0 ?
-                            messages.map((m, index) => (
-                                <p key={index}>
-                                    {m.message}
-                                    <br/>
-                                    <small>
-                                        <i>{m.sender}</i>
-                                    </small>
-                                </p>
-                            )) :
-                            <p>No messages yet</p>
-                        }
-                        <label htmlFor="msg"><b>Message</b></label>
-                        <textarea onChange={e => {
-                            this.setState({ msg: e.target.value })
-                        }} className='msg-box' placeholder="Type message.." name="msg" required></textarea>
-                        {
-                            this.props.accounts[0] !== seller &&
-                            <button onClick={async e => {
-                                e.preventDefault();
-
-                                await this.props.chat_contract.methods.sendMessage(msg, seller, id).send({ from: this.props.accounts[0] });
-
-                                this.setState({ msg: '' })
-                            }} disabled={loading} className="btn">{
-                                loading ?
-                                "Sending..." :
-                                "Send"
-                            }</button>
-                        }
-                       
-                        <button type="button" className="btn cancel" onClick={() => {
-                            document.getElementById("myForm").style.display = "none";
-                        }}>Close</button>
-                    </form>
-                </div>
             </div>
-        }
-      </div>
+            <div className="chat-popup" id="myForm">
+                <form className="form-container">
+                    <h1>Chat</h1>
+                    {
+                        messages && messages.length > 0 ?
+                        messages.map((m, index) => (
+                            <p key={index}>
+                                {m.message}
+                                <br/>
+                                <small>
+                                    <i>{m.sender}</i>
+                                </small>
+                            </p>
+                        )) :
+                        <p>No messages yet</p>
+                    }
+                    <label htmlFor="msg"><b>Message</b></label>
+                    <textarea onChange={e => {
+                        this.setState({ msg: e.target.value })
+                    }} className='msg-box' placeholder="Type message.." name="msg" required></textarea>
+                    <button onClick={async e => {
+                        e.preventDefault();
+
+                        await this.props.chat_contract.methods.sendMessage(msg, seller, id).send({ from: this.props.accounts[0] });
+
+                        this.setState({ msg: '' })
+                    }} disabled={loading} className="btn">{
+                        loading ?
+                        "Sending..." :
+                        "Send"
+                    }</button>
+                
+                </form>
+            </div>
+        </div>
     )
   }
 }
