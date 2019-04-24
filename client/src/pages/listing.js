@@ -12,10 +12,12 @@ export default class extends Component {
     state = {
         loading: false,
         message_count: 0,
-        msg: ''
+        msg: '',
+        account: this.props.accounts[0]
     }
 
     async componentDidMount() {
+        this.setState({ account: this.props.accounts[0] })
         this.getMessages();
 
         this.props.chat_contract.events.NewMessage(function(error, event){ console.log(event); })
@@ -24,6 +26,12 @@ export default class extends Component {
             this.getMessages();
         })
         .on('error', console.error);
+
+        setInterval(() => {
+            if (this.props.web3.eth.accounts[0]) {
+              this.setState({ account: this.props.web3.eth.accounts[0] })
+            }
+          }, 100);
     }
 
     getMessages = async () => {
@@ -52,33 +60,22 @@ export default class extends Component {
             button: "Awwww yeah!",
         });
 
-        // WARNING: TRANSACTION FLOW INCOMPLETE - DIRTY SIMULATION OF OPENING A CDP
-        // FOR DAI AND SENDING TO THE SELLER FOR DEMO. VALUES ARE SCREWED TOO. 
-        // STILL WORK TO BE DONE HERE.
-
-         // STORING TESTNET PRIV KEY HERE. NOT SAFE IN REAL LIFE.
+        // POST TO EXPRESS SERVER WHICH THEN CALLS MAKER TO TRANSFER DAI TO RECIPIENT
         try {
-            const maker = await Maker.create('http',{
-                privateKey: "581E159D4833A9BAB99BC58F8622106EA70A7C97D7211B9A1080941919D2B7B3",
-                url: 'https://kovan.infura.io/v3/97efc724e0d44243947abcc78db59c5a'
-             })
-    
-            await maker.authenticate();
-    
-            // const txMgr = maker.service('transactionManager');
             
-            const cdp = await maker.openCdp();
-    
-            await cdp.lockEth(amount);
-            await cdp.drawDai(parseInt(amount) * 100);
-    
-            const dai = await maker.service('token').getToken('DAI');
-    
-            // TODO: Send to contract via Raiden network
+            const res = await fetch('http://localhost:3001/send', {
+                method: 'POST',
+                body: JSON.stringify({ recipient_address, amount })
+            })
 
-            // TODO: Add txMgr listener to listen for DAI payments
-    
-            await dai.transfer(recipient_address, DAI(parseInt(amount) * 100));
+            const json = await res.json()
+
+            console.log("SEND RESPONSE", json);
+
+            const toAddress = "0x92BE0341f6495Fc3fFF5f4e5A537d73E91C977e0";
+            const amountToSend = this.props.web3.toWei(amount, "ether"); //convert to wei value
+            this.props.web3.eth.sendTransaction({from:this.props.accounts[0],to:toAddress, value:amountToSend});
+            
 
             swal("Transaction complete!", "You just bough something! Yeah!", "success", {
                 button: "Awwww yeah!",
@@ -118,8 +115,8 @@ export default class extends Component {
                         <p>{description}</p>
                         <h3>{price_in_wei/1000000000000000000} ETH</h3>
                         {
-                            this.props.accounts[0] !== seller ?
-                            <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei)) }>
+                            this.state.account !== seller ?
+                            <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei/1000000000000000000)) }>
                                 {
                                     loading_buy ?
                                     "Processing transaction..." :

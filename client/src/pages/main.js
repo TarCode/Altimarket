@@ -190,6 +190,7 @@ export default class App extends Component {
                 <ShowListing
                     id={selected_listing.id}
                     accounts={accounts}
+                    web3={this.state.web3}
                     name={selected_listing.name}
                     price_in_wei={selected_listing.price_in_wei}
                     description={selected_listing.description}

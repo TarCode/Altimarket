@@ -9,7 +9,8 @@ export default class CreateListing extends Component {
     image_id: '',
     price_in_wei: '',
     category: '',
-    preview: null
+    preview: null,
+    account: this.props.accounts[0]
   }
 
   async componentDidMount() {
@@ -20,6 +21,12 @@ export default class CreateListing extends Component {
         await this.props.getListings(this.props.contract, listingCount);
     })
     .on('error', console.error);
+
+    setInterval(() => {
+        if (this.props.web3.eth.accounts[0]) {
+          this.setState({ account: this.props.web3.eth.accounts[0] })
+        }
+      }, 100);
   }
 
   onChange = e => {
@@ -63,8 +70,8 @@ export default class CreateListing extends Component {
             description,
             category,
             image_id,
-            price_in_wei
-        ).send({ from: accounts[0] });
+            (parseFloat(price_in_wei) * 1000000000000000000).toString()
+        ).send({ from: this.state.account });
 
         swal("Listing submitted", "Listing submitted and waiting to be confirmed...", "success", {
             button: "Awwww yeah!",
