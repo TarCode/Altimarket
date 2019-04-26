@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import MarketContract from "../contracts/Market.json";
 import ChatContract from "../contracts/Chat.json";
-import Select from 'react-select'
-
 import CreateListing from '../components/CreateListing';
 import ListingCard from '../components/ListingCard';
 
@@ -74,12 +72,12 @@ export default class App extends Component {
 
       const instance = new web3.eth.Contract(
         MarketContract.abi,
-        "0xe6f313e33a33e044d4487e4dff22e2a04e4f2d47", // HARDCODED ADDRESS
+        "0x7D1509A7fE12C1F474D136B7881BAa79BF43Fef2", // HARDCODED ADDRESS
       );
 
       const chat_contract = new web3.eth.Contract(
         ChatContract.abi,
-        "0x132688f89434bd3512882e99977abee77a9a1f9f" // HARDCODED ADDRESS
+        "0x9a45271Ecf0ac3A5425b0f6C813c44AFd61D8DBa" // HARDCODED ADDRESS
       );
 
       
@@ -196,6 +194,7 @@ export default class App extends Component {
                     description={selected_listing.description}
                     image_id={selected_listing.image_id}
                     chat_contract={chat_contract}
+                    contract={contract}
                     seller={selected_listing.seller}
                 />
            </div>:

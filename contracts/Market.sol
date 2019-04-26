@@ -2,14 +2,15 @@ pragma solidity >=0.4.21 < 0.6.0;
 
 contract Market {
 
-    event NewListing(uint listingId, string name, string category, string description, string image_id, string price_in_wei);
+    event NewListing(uint listingId, string name, string category, string description, string image_id, uint price_in_wei);
+    event BoughtListing(uint listingId, uint price_in_wei, bool available);
 
     struct Listing {
         string name;
         string description;
         string image_id;
         string category;
-        string price_in_wei;
+        uint price_in_wei;
         bool available;
     }
 
@@ -27,7 +28,7 @@ contract Market {
         string memory _description,
         string memory _image_id,
         string memory _category,
-        string memory _price_in_wei
+        uint  _price_in_wei
     ) public {
         uint id = listings.push(Listing(_name, _description, _category, _image_id, _price_in_wei, true));
         listingToOwner[id] = msg.sender;
@@ -47,7 +48,7 @@ contract Market {
         return(listings[_id].image_id);
     }
 
-    function getListingPrice(uint _id) external view returns(string memory) {
+    function getListingPrice(uint _id) external view returns(uint) {
         return(listings[_id].price_in_wei);
     }
 
@@ -57,5 +58,15 @@ contract Market {
 
     function getListingOwnerById(uint _id) external view returns(address) {
         return(listingToOwner[_id]);
+    }
+
+    function buyListing(address payable _to, uint _id) public payable {
+        // Does this transfer the right amount of ether (msg.value measured in wei)?
+        require(msg.value == listings[_id].price_in_wei);
+        listings[_id].available = false;
+        emit BoughtListing(_id, msg.value, false);
+
+        _to.transfer(msg.value);
+
     }
 }

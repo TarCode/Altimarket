@@ -11,9 +11,9 @@ module.exports = {
     //   port: 8545,
     //   network_id: 5777
     // },
-    "kovan": {
-      provider: () => new HDWalletProvider(mnemonic, "https://kovan.infura.io/v3/97efc724e0d44243947abcc78db59c5a"),
-      network_id: 42,
+    "rinkeby": {
+      provider: () => new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/97efc724e0d44243947abcc78db59c5a"),
+      network_id: 4,
       gas: 4700000
     }
   }

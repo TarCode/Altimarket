@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 
 import swal from 'sweetalert';
-
-import Maker from '@makerdao/dai';
-const {
-    DAI
-} = Maker;
+const BigNumber = require('bignumber.js')
+const { NOCUSTManager, LQDTManager } = require('nocust-client')
 
 
 export default class extends Component {
@@ -26,12 +23,6 @@ export default class extends Component {
             this.getMessages();
         })
         .on('error', console.error);
-
-        setInterval(() => {
-            if (this.props.web3.eth.accounts[0]) {
-              this.setState({ account: this.props.web3.eth.accounts[0] })
-            }
-          }, 100);
     }
 
     getMessages = async () => {
@@ -60,22 +51,10 @@ export default class extends Component {
             button: "Awwww yeah!",
         });
 
-        // POST TO EXPRESS SERVER WHICH THEN CALLS MAKER TO TRANSFER DAI TO RECIPIENT
         try {
             
-            const res = await fetch('http://localhost:3001/send', {
-                method: 'POST',
-                body: JSON.stringify({ recipient_address, amount })
-            })
-
-            const json = await res.json()
-
-            console.log("SEND RESPONSE", json);
-
-            const toAddress = "0x92BE0341f6495Fc3fFF5f4e5A537d73E91C977e0";
-            const amountToSend = this.props.web3.toWei(amount, "ether"); //convert to wei value
-            this.props.web3.eth.sendTransaction({from:this.props.accounts[0],to:toAddress, value:amountToSend});
-            
+            await this.props.contract.methods.buyListing(this.props.price_in_wei, this.props.id).call()
+              
 
             swal("Transaction complete!", "You just bough something! Yeah!", "success", {
                 button: "Awwww yeah!",

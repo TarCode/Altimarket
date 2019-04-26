@@ -1,14 +1,14 @@
 ![](https://altimarket.surge.sh/img/logo.png)
 
 ![](https://altimarket.surge.sh/img/logo2.png)
-# Altimarket
+# Alti
 
-Altimarket is a decentralized rental platform with escrow service built on Ethereum. 
+Alti is a decentralized rental platform with escrow service built on Ethereum. 
 
 ## Technology stack
-Altimarket is built using Truffle, React, Web3 and DAI.js
+Alti is built using Truffle, React, Web3 and DAI.js
 
-Altimarket is still in development and only functions as a proof of concept on the KOVAN TESTNET demonstrating:
+Alti is still in development and only functions as a proof of concept on the KOVAN TESTNET demonstrating:
 - Adding a listing 
 - Viewing a listing 
 - Chatting to the seller

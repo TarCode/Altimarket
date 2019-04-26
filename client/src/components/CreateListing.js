@@ -21,12 +21,6 @@ export default class CreateListing extends Component {
         await this.props.getListings(this.props.contract, listingCount);
     })
     .on('error', console.error);
-
-    setInterval(() => {
-        if (this.props.web3.eth.accounts[0]) {
-          this.setState({ account: this.props.web3.eth.accounts[0] })
-        }
-      }, 100);
   }
 
   onChange = e => {
