@@ -124,43 +124,6 @@ export default class extends Component {
                     }</button>}
 
             </div>
-            <div className="chat-popup" id="myForm">
-                <form className="form-container">
-                    <h1>Chat</h1>
-                    {
-                        messages && messages.length > 0 ?
-                        messages.map((m, index) => (
-                            <p key={index}>
-                                {m.message}
-                                <br/>
-                                <small>
-                                    <i>{m.sender}</i>
-                                </small>
-                            </p>
-                        )) :
-                        <p>No messages yet</p>
-                    }
-                    <label htmlFor="msg"><b>Message</b></label>
-                    <textarea onChange={e => {
-                        this.setState({ msg: e.target.value })
-                    }} className='msg-box' placeholder="Type message.." name="msg" required></textarea>
-                    
-                    <button onClick={async e => {
-                        e.preventDefault();
-
-                        await this.props.chat_contract.methods.sendMessage(msg, seller, id).send({ from: this.props.accounts[0] });
-
-                        this.setState({ msg: '' })
-                    }} disabled={loading} className="btn">{
-                        loading ?
-                        "Sending..." :
-                        "Send"
-                    }</button>
-                    <button type="button" className="btn cancel" onClick={() => {
-                        document.getElementById("myForm").style.display = "none";
-                    }}>Close</button>
-                </form>
-            </div>
         </div>
     )
   }
