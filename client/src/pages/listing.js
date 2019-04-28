@@ -70,7 +70,7 @@ export default class extends Component {
 
   render() {
     const { id, name, description, image_id, price_in_wei, seller, available } = this.props;
-    const { loading, loading_buy, message_count, messages, msg } = this.state;
+    const { loading, loading_buy, message_count } = this.state;
 
     
     return (
