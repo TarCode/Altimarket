@@ -125,7 +125,7 @@ function Landing(props) {
         <div className={classNames(classes.layout, classes.cardGrid)}>
           {/* End hero unit */}
           <Grid container spacing={40}>
-              <Grid item sm={6} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={4} lg={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
@@ -142,7 +142,7 @@ function Landing(props) {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item sm={6} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={4} lg={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
@@ -159,7 +159,7 @@ function Landing(props) {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item sm={6} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={4} lg={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
