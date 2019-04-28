@@ -12,9 +12,9 @@ export default class extends Component {
 
   handleChange = (event, value) => {
     if (value === 0) {
-      this.props.history.push('/')
+      this.props.showListings();
     } else if (value === 1) {
-      this.props.history.push('/add')
+      this.props.newListing();
     } 
     this.setState({ value });
   };

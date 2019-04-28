@@ -62,7 +62,7 @@ contract Market {
 
     function buyListing(address payable _to, uint _id) public payable {
         // Does this transfer the right amount of ether (msg.value measured in wei)?
-        require(msg.value == listings[_id].price_in_wei);
+        require(msg.value == listings[_id].price_in_wei && listings[_id].available == true);
         listings[_id].available = false;
         emit BoughtListing(_id, msg.value, false);
 

@@ -1,8 +1,13 @@
 import React, { Component } from "react";
+import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 import MarketContract from "../contracts/Market.json";
 import ChatContract from "../contracts/Chat.json";
 import CreateListing from './CreateListing';
 import ListingCard from '../components/ListingCard';
+import Nav from '../components/nav';
 import swal from 'sweetalert';
 
 import ShowListing from './listing';
@@ -29,6 +34,7 @@ export default class App extends Component {
         const description = await contract.methods.getListingDescription(i).call();
         const image_id = await contract.methods.getListingImageId(i).call();
         const price_in_wei = await contract.methods.getListingPrice(i).call();
+        const available = await contract.methods.getListingAvailability(i).call();
         const seller = await contract.methods.getListingOwnerById(i).call();
 
         listings.push({
@@ -36,6 +42,7 @@ export default class App extends Component {
             name,
             description,
             image_id,
+            available,
             price_in_wei,
             seller
         })
@@ -125,88 +132,102 @@ export default class App extends Component {
     }
     
     return (
-      <div className='container'>
-        <div style={{
-            textAlign: 'center',
+      <div style={{
+        paddingTop: '80px'
+      }} className='container'>
+        <Card style={{
+            textAlign: 'right',
             position: 'fixed',
-            left: '50vw',
-            top: '20px',
+            top: 0,
+            height: '80px',
+            left: 0, right: 0,
             zIndex: 10001
         }}>
-          <b>{(balance/1000000000000000000)} ETH</b>
-          <p style={{ marginTop: '0px'}}>ZAR 1234</p>
-        </div>
-        <div style={{
-            position: 'fixed',
-            right: '10px',
-            top: '20px',
-            zIndex: 10001
+          <div style={{
+            textAlign: 'right',
+            paddingTop: '20px',
+            position: 'relative'
         }}>
-            <button onClick={() => {
-                this.setState({ create_listing: !create_listing})
-            }}>{
-                create_listing ?
-                "Close" : 
-                "CREATE LISTING"
-            }</button>
-        </div>
-          <br/><br/>
+            <img style={{
+              height: '70px',
+              width: 'auto',
+              position: 'absolute',
+              left: 0, top: 0
+            }} src='/img/logo.png'/>
+            <div style={{
+              position: 'absolute',
+              right: '15px', top: '15px'
+            }}>
+              <b>{(balance/1000000000000000000)} ETH</b>
+              <p style={{ marginTop: '0px'}}>{accounts[0]}</p>
+            </div>
+          </div>
+        </Card>
+          <br/>
         {
           !selected_listing && !create_listing &&
-          <div style={{
-            position: 'relative'
-          }} className='row'>
-            <div className='col-9'>
+          <div>
+            <div style={{
+              position: 'fixed',
+              display: 'flex',
+              justifyContent: 'center',
+              alignContent: 'center',
+              alignSelf: 'center',
+              top: '80px',
+              left: 0, right: 0,
+              background: "#fff",
+              zIndex: 1001
+            }}>
               <input onChange={(e) => {
                 this.setState({ search: e.target.value})
               }} style={{
                 maxWidth: '650px',
-                width: '90%',
+                width: '100%',
+                maxWidth: '400px',
                 height: '75px',
                 display: 'inline-block'
-              }} placeholder="Start typing..."/>
+              }} placeholder="Search listings..."/>
             </div>
-            {/* <div className="col-3">
-              <Select options={options} />
-            </div> */}
-            <div style={{
-              position: 'relative',
-              right: 0
-            }} className='col-2'>
-              <button style={{
-                height: '80px',
-                width: '100%',
-                fontSize: '22px'
-              }}>SEARCH</button>
-            </div>
+            <br/>
           </div>
         }
-        {!selected_listing && !create_listing && <h1 className='left'>On the market: {this.state.listingCount}</h1>}
+        <br/>
+        {!selected_listing && !create_listing ? <h1 className='left'>On the market: {this.state.listingCount}</h1> : null}
         {
             create_listing ?
             <div>
-                <CreateListing close={() => this.setState({ create_listing: false })} getListings={this.setListingState} listingCount={this.state.listingCount} accounts={accounts} contract={contract}/>
+                <CreateListing
+                  close={() => this.setState({ create_listing: false })}
+                  web3={this.state.web3}
+                  getListings={this.setListingState} 
+                  listingCount={this.state.listingCount} 
+                  accounts={accounts} 
+                  contract={contract}
+                />
             </div> :
             selected_listing ?
            <div style={{
                position: 'relative'
            }}>
-                <button style={{
+                <Button onClick={() => {
+                    this.setState({ selected_listing: null})
+                }} variant="contained" color="primary" style={{
                     position: 'absolute',
                     right: '15px',
                     top: '0px',
                     zIndex: 1001
-                }} onClick={() => {
-                    this.setState({ selected_listing: null})
-                }}>Back</button>
+                }} >
+                  Back
+                </Button>
                 <ShowListing
                     id={selected_listing.id}
                     accounts={accounts}
                     web3={this.state.web3}
                     name={selected_listing.name}
-                    price_in_ether={this.state.priceInEther/1000000000000000000}
+                    price_in_wei={selected_listing.price_in_wei}
                     description={selected_listing.description}
                     image_id={selected_listing.image_id}
+                    available={selected_listing.available}
                     chat_contract={chat_contract}
                     contract={contract}
                     seller={selected_listing.seller}
@@ -216,12 +237,13 @@ export default class App extends Component {
                 {
                     listings.length > 0 ?
                     the_listings.map((l, index) => (
-                        <div onClick={() => this.setState({ selected_listing: l, priceInEther: (parseInt(l.price_in_wei)/1000000000000000000).toString() })} key={index} className='col-4'>
+                        <div onClick={() => this.setState({ selected_listing: l })} key={index} className='col-4'>
                             <ListingCard
-                                price_in_wei={(parseInt(l.price_in_wei)/1000000000000000000).toString()}
+                                price_in_wei={(parseInt(l.price_in_wei)).toString()}
                                 name={l.name}
                                 description={l.description}
                                 image_id={l.image_id}
+                                available={l.available}
                             />
                         </div>
                     )) :
@@ -229,6 +251,11 @@ export default class App extends Component {
                 }
             </div>
         }
+        <br/><br/>
+        <Nav
+          showListings={() => this.setState({ create_listing: false, selected_listing: false})}
+          newListing={() => this.setState({ create_listing: true })}
+        />
       </div>
     );
   }

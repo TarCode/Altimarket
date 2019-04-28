@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Button from '@material-ui/core/Button';
 
 import swal from 'sweetalert';
 const BigNumber = require('bignumber.js')
@@ -46,12 +47,9 @@ export default class extends Component {
     buyItem = async (recipient_address, amount) => {
         this.setState({ loading_buy: true })
 
-        console.log("THIS IS THE AMOUNT", amount);
-        
-
         try {
             
-            await this.props.contract.methods.buyListing(recipient_address, this.props.id).send({ from: this.props.accounts[0], amount: BigNumber(amount) });;
+            await this.props.contract.methods.buyListing(recipient_address, this.props.id).send({ from: this.props.accounts[0], value: this.props.web3.utils.toWei(amount.toString()) });
               
             swal("Processing transaction...", "Transaction is being processed...", "success", {
                 button: "Awwww yeah!",
@@ -71,7 +69,7 @@ export default class extends Component {
     }
 
   render() {
-    const { id, name, description, image_id, price_in_ether, seller, accounts } = this.props;
+    const { id, name, description, image_id, price_in_wei, seller, available } = this.props;
     const { loading, loading_buy, message_count, messages, msg } = this.state;
 
     
@@ -89,17 +87,27 @@ export default class extends Component {
                     <div className="col-6">
                         <h2>{name}</h2>
                         <p>{description}</p>
-                        <h3>{price_in_ether} ETH</h3>
+                        <h3>{(price_in_wei/1000000000000000000).toString()} ETH</h3>
+                        <p>Seller address: <br/>{seller}</p>
                         {
-                            this.state.account !== seller ?
-                            <button disabled={loading_buy} onClick={() => this.buyItem(seller, parseFloat(price_in_ether)) }>
+                            this.props.accounts[0] !== seller ?
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                disabled={loading_buy || !available} 
+                                onClick={() => this.buyItem(seller, BigNumber(price_in_wei/1000000000000000000)) }
+                            >
                                 {
                                     loading_buy ?
                                     "Processing transaction..." :
                                     "Buy"
                                 }
-                            </button> :
+                            </Button> :
                             <p>You are selling this product</p>
+                            }
+                            {
+                                !available ?
+                                <p>This item has been sold</p> : null
                             }
                             <br/>
                             {

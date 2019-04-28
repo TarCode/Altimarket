@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import swal from 'sweetalert';
+import Button from '@material-ui/core/Button';
+
 const BigNumber = require('bignumber.js')
 
 export default class CreateListing extends Component {
@@ -65,7 +67,7 @@ export default class CreateListing extends Component {
             description,
             category,
             image_id,
-            parseInt((parseFloat(price_in_wei) * 1000000000000000000))
+            BigNumber((parseFloat(price_in_wei) * 1000000000000000000)).toString()
         ).send({ from: this.state.account });
 
         swal("Listing submitted", "Listing submitted and waiting to be confirmed...", "success", {
@@ -107,12 +109,15 @@ export default class CreateListing extends Component {
                 <br/><br/>
                 <input onChange={this.onChange} placeholder="Description" name='description' type='text' value={description}/>
                 <br/><br/>
-                <input onChange={this.onChange} placeholder="Price" name='price_in_wei' value={price_in_wei}/>
+                <input onChange={this.onChange} type="number" placeholder="Price" name='price_in_wei' value={price_in_wei}/>
                 <br/>
                 <div style={{
-                    position: 'relative'
+                    position: 'relative',
+                    paddingLeft: '8px'
                 }}>
-                    <h5>Upload image</h5>
+                    <Button variant="contained" color="secondary">
+                        Upload Image
+                    </Button>
                     <input style={{ 
                         position: 'absolute', 
                         width: '100%', 
@@ -154,7 +159,8 @@ export default class CreateListing extends Component {
                         null
                     }
                 </div>
-                <button disabled={btn_disabled} className='pure-button' onClick={this.submit}>Add</button>
+                <br/>
+                <Button disabled={btn_disabled} variant="contained" color="primary" onClick={this.submit}>Add</Button>
             </div>
         }
       </div>
