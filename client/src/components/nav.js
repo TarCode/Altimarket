@@ -1,29 +1,42 @@
 import React, { Component } from 'react'
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import ListingIcon from '@material-ui/icons/List';
+import AddIcon from '@material-ui/icons/Add';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 export default class extends Component {
+  state = {
+    value: 0,
+  };
+
+  handleChange = (event, value) => {
+    if (value === 0) {
+      this.props.history.push('/')
+    } else if (value === 1) {
+      this.props.history.push('/add')
+    } 
+    this.setState({ value });
+  };
   render() {
+    const { value } = this.state
     return (
-      <div style={{
+      <BottomNavigation
+        value={value}
+        onChange={this.handleChange}
+        showLabels
+        style={{
           position: 'fixed',
-          top: 0, left: 0, right: 0,
-          height: '90px',
-          backgroundColor: "#fff",
-          boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+          width: '100%',
+          bottom: 0,
+          left: 0, right: 0,
           zIndex: 10001
-      }}>
-        <img style={{
-            position: 'absolute',
-            left: '40px',
-            top: '10px',
-            height: '68px'
-        }} src="/img/logo.png"/>
-        <img style={{
-            position: 'absolute',
-            left: '130px',
-            top: '35px',
-            height: '21px'
-        }} src="/img/logo2.png"/>
-      </div>
+        }}
+      >
+        <BottomNavigationAction label="Listings" icon={<ListingIcon />} />
+        <BottomNavigationAction label="Add listing" icon={<AddIcon />} />
+        <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
+      </BottomNavigation>
     )
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import swal from 'sweetalert';
+const BigNumber = require('bignumber.js')
 
 export default class CreateListing extends Component {
 
@@ -64,7 +65,7 @@ export default class CreateListing extends Component {
             description,
             category,
             image_id,
-            (parseFloat(price_in_wei) * 1000000000000000000).toString()
+            parseInt((parseFloat(price_in_wei) * 1000000000000000000))
         ).send({ from: this.state.account });
 
         swal("Listing submitted", "Listing submitted and waiting to be confirmed...", "success", {

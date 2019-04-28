@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 
 import swal from 'sweetalert';
 const BigNumber = require('bignumber.js')
-const { NOCUSTManager, LQDTManager } = require('nocust-client')
 
 
 export default class extends Component {
@@ -47,16 +46,14 @@ export default class extends Component {
     buyItem = async (recipient_address, amount) => {
         this.setState({ loading_buy: true })
 
-        swal("Processing transaction...", "Transaction is being processed...", "success", {
-            button: "Awwww yeah!",
-        });
+        console.log("THIS IS THE AMOUNT", amount);
+        
 
         try {
             
-            await this.props.contract.methods.buyListing(this.props.price_in_wei, this.props.id).call()
+            await this.props.contract.methods.buyListing(recipient_address, this.props.id).send({ from: this.props.accounts[0], amount: BigNumber(amount) });;
               
-
-            swal("Transaction complete!", "You just bough something! Yeah!", "success", {
+            swal("Processing transaction...", "Transaction is being processed...", "success", {
                 button: "Awwww yeah!",
             });
 
@@ -74,7 +71,7 @@ export default class extends Component {
     }
 
   render() {
-    const { id, name, description, image_id, price_in_wei, seller, accounts } = this.props;
+    const { id, name, description, image_id, price_in_ether, seller, accounts } = this.props;
     const { loading, loading_buy, message_count, messages, msg } = this.state;
 
     
@@ -92,10 +89,10 @@ export default class extends Component {
                     <div className="col-6">
                         <h2>{name}</h2>
                         <p>{description}</p>
-                        <h3>{price_in_wei/1000000000000000000} ETH</h3>
+                        <h3>{price_in_ether} ETH</h3>
                         {
                             this.state.account !== seller ?
-                            <button disabled={loading_buy} onClick={() => this.buyItem(seller, (price_in_wei/1000000000000000000)) }>
+                            <button disabled={loading_buy} onClick={() => this.buyItem(seller, parseFloat(price_in_ether)) }>
                                 {
                                     loading_buy ?
                                     "Processing transaction..." :

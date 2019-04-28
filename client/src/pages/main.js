@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import MarketContract from "../contracts/Market.json";
 import ChatContract from "../contracts/Chat.json";
-import CreateListing from '../components/CreateListing';
+import CreateListing from './CreateListing';
 import ListingCard from '../components/ListingCard';
+import swal from 'sweetalert';
 
 import ShowListing from './listing';
 
@@ -72,12 +73,12 @@ export default class App extends Component {
 
       const instance = new web3.eth.Contract(
         MarketContract.abi,
-        "0x7D1509A7fE12C1F474D136B7881BAa79BF43Fef2", // HARDCODED ADDRESS
+        "0x96b4B899E5534207bdb19A8FDBA8b2Ab9fec9030", // HARDCODED ADDRESS
       );
 
       const chat_contract = new web3.eth.Contract(
         ChatContract.abi,
-        "0x9a45271Ecf0ac3A5425b0f6C813c44AFd61D8DBa" // HARDCODED ADDRESS
+        "0x34CDce009A15983aB9Aa2f7b5FEEbCC8A68cD45F" // HARDCODED ADDRESS
       );
 
       
@@ -85,6 +86,18 @@ export default class App extends Component {
 
 
       this.setState({ web3, accounts, contract: instance, chat_contract, balance });
+
+      instance.events.BoughtListing(function(error, event){ console.log(event); })
+      .on('data', event => {
+          console.log("BOUGHT SOMETHING", event);
+
+          swal("Transaction complete!", "You just bough something! Yeah!", "success", {
+              button: "Awwww yeah!",
+          });
+
+          this.setListingState(instance);
+      })
+      .on('error', console.error);
 
       
     } catch (error) {
@@ -110,6 +123,7 @@ export default class App extends Component {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
+    
     return (
       <div className='container'>
         <div style={{
@@ -190,7 +204,7 @@ export default class App extends Component {
                     accounts={accounts}
                     web3={this.state.web3}
                     name={selected_listing.name}
-                    price_in_wei={selected_listing.price_in_wei}
+                    price_in_ether={this.state.priceInEther/1000000000000000000}
                     description={selected_listing.description}
                     image_id={selected_listing.image_id}
                     chat_contract={chat_contract}
@@ -202,9 +216,9 @@ export default class App extends Component {
                 {
                     listings.length > 0 ?
                     the_listings.map((l, index) => (
-                        <div onClick={() => this.setState({ selected_listing: l })} key={index} className='col-4'>
+                        <div onClick={() => this.setState({ selected_listing: l, priceInEther: (parseInt(l.price_in_wei)/1000000000000000000).toString() })} key={index} className='col-4'>
                             <ListingCard
-                                price_in_wei={l.price_in_wei}
+                                price_in_wei={(parseInt(l.price_in_wei)/1000000000000000000).toString()}
                                 name={l.name}
                                 description={l.description}
                                 image_id={l.image_id}
