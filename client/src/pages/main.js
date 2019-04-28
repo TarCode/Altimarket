@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import MarketContract from "../contracts/Market.json";
 import ChatContract from "../contracts/Chat.json";
@@ -128,7 +128,21 @@ export default class App extends Component {
     const the_listings = this.state.search.length > 0 ? listings.filter(l => l.name.toLowerCase().includes(this.state.search.toLowerCase())) : listings;
     
     if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract...</div>;
+      return <div style={{
+        display: 'flex',
+        margin: 'auto',
+        justifyContent: 'center',
+        height: '90vh'
+      }}>
+        <div style={{
+          paddingTop: '10vh',
+          textAlign: 'center'
+        }}>
+          <CircularProgress />
+          <br/>
+          Loading...<br/>Please be patient.
+        </div>
+      </div>;
     }
     
     return (
