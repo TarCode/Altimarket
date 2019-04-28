@@ -47,7 +47,7 @@ export default class App extends Component {
             seller
         })
     }
-    return listings;
+    return listings.reverse();
   }
 
   setListingState = async (instance) => {
@@ -97,12 +97,12 @@ export default class App extends Component {
       instance.events.BoughtListing(function(error, event){ console.log(event); })
       .on('data', event => {
           console.log("BOUGHT SOMETHING", event);
-
-          swal("Transaction complete!", "You just bough something! Yeah!", "success", {
-              button: "Awwww yeah!",
-          });
-
-          this.setListingState(instance);
+          if (event.address === accounts[0]) {
+            swal("Transaction complete!", "You just bough something! Yeah!", "success", {
+                button: "Awwww yeah!",
+            });
+            this.setListingState(instance);
+          }
       })
       .on('error', console.error);
 
@@ -126,6 +126,8 @@ export default class App extends Component {
     ]
 
     const the_listings = this.state.search.length > 0 ? listings.filter(l => l.name.toLowerCase().includes(this.state.search.toLowerCase())) : listings;
+
+
     
     if (!this.state.web3) {
       return <div style={{
@@ -247,7 +249,7 @@ export default class App extends Component {
                     seller={selected_listing.seller}
                 />
            </div>:
-            <div className='row'>
+            <div className='row left'>
                 {
                     listings.length > 0 ?
                     the_listings.map((l, index) => (

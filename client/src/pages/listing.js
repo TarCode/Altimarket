@@ -9,39 +9,23 @@ export default class extends Component {
     state = {
         loading: false,
         message_count: 0,
-        msg: '',
+        msg: 'test message 123',
         account: this.props.accounts[0]
     }
 
     async componentDidMount() {
         this.setState({ account: this.props.accounts[0] })
-        this.getMessages();
 
         this.props.chat_contract.events.NewMessage(function(error, event){ console.log(event); })
         .on('data', event => {
             console.log("MESSAGE", event);
             this.getMessages();
         })
-        .on('error', console.error);
+        .on('error', console.error);        
     }
 
     getMessages = async () => {
-        const { chat_contract, id } = this.props;
-
-        this.setState({ loading: true })
-        const message_count = await chat_contract.methods.getListingMessageCount(id).call();
-        const messages = [];
-
-        for (let i = 0; i < message_count; i++) {
-            const message = await chat_contract.methods.getListingMessageTextByIndex(id, i).call();
-            const sender = await chat_contract.methods.getListingMessageSenderByIndex(id, i).call();
-            messages.push({
-                message,
-                sender
-            })
-        }
-        
-        this.setState({ loading: false, message_count, messages })
+       
     }
 
     buyItem = async (recipient_address, amount) => {
@@ -84,44 +68,37 @@ export default class extends Component {
                         
                     }} src={"https://res.cloudinary.com/blocktame/image/upload/v1555706663/" + image_id}/>
                 </div>
-                    <div className="col-6">
-                        <h2>{name}</h2>
-                        <p>{description}</p>
-                        <h3>{(price_in_wei/1000000000000000000).toString()} ETH</h3>
-                        <p>Seller address: <br/>{seller}</p>
-                        {
-                            this.props.accounts[0] !== seller ?
-                            <Button 
-                                variant="contained" 
-                                color="primary" 
-                                disabled={loading_buy || !available} 
-                                onClick={() => this.buyItem(seller, BigNumber(price_in_wei/1000000000000000000)) }
-                            >
-                                {
-                                    loading_buy ?
-                                    "Processing transaction..." :
-                                    "Buy"
-                                }
-                            </Button> :
-                            <p>You are selling this product</p>
-                            }
-                            {
-                                !available ?
-                                <p>This item has been sold</p> : null
-                            }
-                            <br/>
+                <div className="col-6">
+                    <h2>{name}</h2>
+                    <p>{description}</p>
+                    <h3>{(price_in_wei/1000000000000000000).toString()} ETH</h3>
+                    <p>Seller address: <br/>{seller}</p>
+                    {
+                        this.props.accounts[0] !== seller ?
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            disabled={loading_buy || !available} 
+                            onClick={() => this.buyItem(seller, BigNumber(price_in_wei/1000000000000000000)) }
+                        >
                             {
                                 loading_buy ?
-                                    "Please wait while the transaction is being processed. It may take a while..." : null
+                                "Processing transaction..." :
+                                "Buy"
                             }
-                    </div>
-                    {<button className="open-button" onClick={() => {
-                        document.getElementById("myForm").style.display = "block";
-                    }}>{
-                        loading ? 
-                        "Loading chat..." :
-                        <span>Chat ({message_count.toString()})</span>
-                    }</button>}
+                        </Button> :
+                        <p>You are selling this product</p>
+                        }
+                        {
+                            !available ?
+                            <p>This item has been sold</p> : null
+                        }
+                        <br/>
+                        {
+                            loading_buy ?
+                                "Please wait while the transaction is being processed. It may take a while..." : null
+                        }
+                </div>
 
             </div>
         </div>

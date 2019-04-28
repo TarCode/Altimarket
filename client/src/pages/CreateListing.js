@@ -58,10 +58,6 @@ export default class CreateListing extends Component {
     try {
         const image_id = await this.uploadImageToCloudinaryAndSubmitData()
 
-        swal("Processing listing", "Listing is being processed...", "success", {
-            button: "Awwww yeah!",
-        });
-
         await contract.methods.createListing(
             name,
             description,
@@ -73,8 +69,6 @@ export default class CreateListing extends Component {
         swal("Listing submitted", "Listing submitted and waiting to be confirmed...", "success", {
             button: "Awwww yeah!",
         });
-
-        this.props.close()
 
         this.setState({
             name: '',

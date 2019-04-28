@@ -30,12 +30,13 @@ export default class extends Component {
           width: '100%',
           bottom: 0,
           left: 0, right: 0,
-          zIndex: 10001
+          zIndex: 10001,
+          backgroundColor: 'transparent'
         }}
       >
-        <BottomNavigationAction label="Listings" icon={<ListingIcon />} />
-        <BottomNavigationAction label="Add listing" icon={<AddIcon />} />
-        <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
+        <BottomNavigationAction style={{ backgroundColor: '#fff' }} label="Listings" icon={<ListingIcon />} />
+        <BottomNavigationAction style={{ backgroundColor: '#fff' }} label="Add listing" icon={<AddIcon />} />
+        <BottomNavigationAction style={{ backgroundColor: '#fff' }} label="Settings" icon={<SettingsIcon />} />
       </BottomNavigation>
     )
   }
