@@ -1,22 +1,18 @@
 ![](https://altimarket.surge.sh/img/logo.png)
 
 ![](https://altimarket.surge.sh/img/logo2.png)
-# Alti
+# Altimarket
 
-Alti is a decentralized rental platform with escrow service built on Ethereum. 
+Altimarket is a decentralized classified ads platform built on Ethereum. 
 
 ## Technology stack
-Alti is built using Truffle, React, Web3 and DAI.js
+Altimarket is built using Truffle, React, Web3
 
-Alti is still in development and only functions as a proof of concept on the KOVAN TESTNET demonstrating:
+Altimarket is still in development and only functions as a proof of concept on the KOVAN and RINKEBY TESTNET demonstrating:
 - Adding a listing 
 - Viewing a listing 
-- Chatting to the seller
-- Buy a listing (CDP gets opened for DAI and gets sent to seller)
+- Buy a listing with ETH
 
-The following is incomplete:
-- Raiden network integration
-- Escrow smart contract integration
 
 ### Team
 - **Nurha Leite** - Research, planning, testing
@@ -25,4 +21,4 @@ The following is incomplete:
 
 [Invision Prototype](https://projects.invisionapp.com/share/CRRN3OEFKH7#/screens/359194224_Landing_Page_Copy)
 
-[Altimarket POC](https://altimarket.surge.sh) - You need Metamask connected to KOVAN for this ^_^
+[Altimarket POC](https://altimarket.surge.sh) - You need Metamask connected to KOVAN or RINKEBY for this ^_^
